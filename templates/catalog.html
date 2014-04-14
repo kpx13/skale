@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block title %}Главная{% endblock %}
+
+{% block content %}
+    {% include 'search.html' %}
+
+    {% if items %}
+        <div class="catalog-block highlighted">
+            <ul class="catalog-list">
+                {% for i in items %}{% include 'item_short.html' with i=i %}{% endfor %}
+            </ul>
+        </div>
+    {% else %}
+        <h3>В этой категории нет товаров.</h3>
+    {% endif %}
+    
+{% endblock %}

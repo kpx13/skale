@@ -627,6 +627,16 @@ button.btn-orange {
   -o-border-radius: 6px;
   border-radius: 6px;
 }
+
+.catalog-list > li .img{
+    height: 150px !important;
+}
+
+.catalog-list > li .img img{
+    max-height: 180px;
+    max-width: 160px;
+}
+
 .catalog-list .title {
   font-weight: 700;
   line-height: 17px;
@@ -661,6 +671,9 @@ button.btn-orange {
   color: #545454;
   font-size: 11px;
   padding: 0 0 7px;
+}
+
+.catalog-list .old-price span {
   text-decoration: line-through;
 }
 .catalog-list .btn {

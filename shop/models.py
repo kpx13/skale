@@ -8,7 +8,7 @@ from django.core.mail import send_mail
 from django.template import Context, Template
 
 from dashboard import string_with_title
-from catalog.models import Item, Size
+from catalog.models import Item
 import config
 from livesettings import config_value
 
@@ -25,16 +25,9 @@ def sendmail(subject, body, to_email):
     send_mail(mail_subject, body, settings.DEFAULT_FROM_EMAIL,
         [to_email])
 
-def get_size(size):
-    if size and size != 'None':
-        return Size.objects.get(name=size)
-    else:
-        return None
-
 class Cart(models.Model):
     user = models.ForeignKey(User, verbose_name=u'пользователь')
     item = models.ForeignKey(Item, verbose_name=u'товар')
-    size = models.ForeignKey(Size, blank=True, null=True, verbose_name=u'размер')
     count = models.IntegerField(default=1, verbose_name=u'количество')
     date = models.DateTimeField(default=datetime.datetime.now, verbose_name=u'дата добавления')
     
@@ -50,10 +43,10 @@ class Cart(models.Model):
 
     
     @staticmethod
-    def add_to_cart(user, item, size, count=1):
-        alr = Cart.objects.filter(user=user, item=item, size=get_size(size))
+    def add_to_cart(user, item, count=1):
+        alr = Cart.objects.filter(user=user, item=item)
         if len(alr) == 0:
-            Cart(user=user, item=Item.get(item), size=get_size(size), count=count).save()
+            Cart(user=user, item=Item.get(item), count=count).save()
         else:
             alr[0].count = alr[0].count + count
             alr[0].save()
@@ -61,27 +54,27 @@ class Cart(models.Model):
     @staticmethod     
     def update(user, dict_): 
         for d in dict_:
-            Cart(user=user, item=d['item'], count=d['count'], size=get_size(d['size'])).save()
+            Cart(user=user, item=d['item'], count=d['count']).save()
     
     @staticmethod
-    def set_count(user, item, size, count):
+    def set_count(user, item, count):
         if count <= 0:
-            Cart.objects.filter(user=user, item=item, size=get_size(size)).delete()
+            Cart.objects.filter(user=user, item=item).delete()
         else: 
-            alr = Cart.objects.filter(user=user, item=item, size=get_size(size))[0]
+            alr = Cart.objects.filter(user=user, item=item)[0]
             alr.count = count 
             alr.save()
     
     @staticmethod
-    def count_plus(user, item, size):
-        alr = Cart.objects.filter(user=user, item=item, size=get_size(size))[0]
+    def count_plus(user, item):
+        alr = Cart.objects.filter(user=user, item=item)[0]
         alr.count += 1 
         alr.save()
             
     
     @staticmethod
-    def count_minus(user, item, size):
-        alr = Cart.objects.filter(user=user, item=item, size=get_size(size))[0]
+    def count_minus(user, item):
+        alr = Cart.objects.filter(user=user, item=item)[0]
         if alr.count <= 1:
             alr.delete()
             return
@@ -89,8 +82,8 @@ class Cart(models.Model):
         alr.save()
             
     @staticmethod
-    def del_from_cart(user, item, size):
-        Cart.objects.filter(user=user, item=item, size=get_size(size)).delete()
+    def del_from_cart(user, item):
+        Cart.objects.filter(user=user, item=item).delete()
     
     @staticmethod    
     def clear(user):
@@ -128,8 +121,8 @@ class Cart(models.Model):
         return res
     
     @staticmethod
-    def get_count(user, item, size):
-        cart = list(Cart.objects.filter(user=user, item=item, size=get_size(size)))
+    def get_count(user, item):
+        cart = list(Cart.objects.filter(user=user, item=item))
         if len(cart) > 0:
             return cart[0].count
         else:
@@ -232,21 +225,20 @@ Cпособ доставки: {{ o.get_delivery_display }}
 class OrderContent(models.Model):
     order = models.ForeignKey(Order, verbose_name=u'заказ', related_name='content')
     item = models.ForeignKey(Item, verbose_name=u'товар')
-    size = models.ForeignKey(Size, blank=True, null=True, verbose_name=u'размер')
     count = models.IntegerField(default=1, verbose_name=u'количество')
         
     def __unicode__(self):
         return self.item.name
     
     @staticmethod
-    def add(order, item, count, size=None):
-        OrderContent(order=order, item=item, size=size, count=count).save()
+    def add(order, item, count=None):
+        OrderContent(order=order, item=item, count=count).save()
         
     @staticmethod
     def move_from_cart(user, order):
         cart_content = Cart.get_content(user)
         for c in cart_content:
-            OrderContent.add(order, c['item'], c['count'], get_size(c['size']))
+            OrderContent.add(order, c['item'], c['count'])
         Cart.clear(user) 
         
     @staticmethod

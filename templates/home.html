@@ -3,14 +3,7 @@
 {% block title %}Главная{% endblock %}
 
 {% block content %}
-   <!-- .search-block -->
-    <div class="search-block">
-        <button>Поиск</button>
-        <div class="wr-input">
-            <input type="text" placeholder="Поиск по сайту ...">
-        </div>
-    </div>
-    <!--// .search-block -->
+   {% include 'search.html' %}
     <!-- .slider -->
     <div class="slider">
         <div class="headline"><span class="subtitle">Новостройка:</span> детский сад школа</div>
@@ -28,39 +21,7 @@
         <h2 class="headline">Новинки сезона</h2>
         <!-- .catalog-list -->
         <ul class="catalog-list">
-            <li>
-            <div class="title"><a href="#">Многофактор.опросник Р.Кеттелла</a></div>
-            <div class="/static/img">
-                <a href="#"><img src="/static/i/catalog-pic1.jpg" alt="Многофактор.опросник Р.Кеттелла" width="98" height="113"></a>
-            </div>
-            <div class="price">3 602 руб.</div>
-            <div class="old-price">4200 руб.</div>
-            <div class="btn btn-blue btn-border"><a href="#">Купить</a></div>
-            </li><li>
-            <div class="title"><a href="#">Многофактор.опросник Р.Кеттелла</a></div>
-            <div class="/static/img">
-                <a href="#"><img src="/static/i/catalog-pic2.jpg" alt="Многофактор.опросник Р.Кеттелла" width="180" height="120"></a>
-            </div>
-            <div class="price">3 602 руб.</div>
-            <div class="old-price">4200 руб.</div>
-            <div class="btn btn-blue btn-border"><a href="#">Купить</a></div>
-            </li><li>
-            <div class="title"><a href="#">Многофактор.опросник Р.Кеттелла</a></div>
-            <div class="/static/img">
-                <a href="#"><img src="/static/i/catalog-pic3.jpg" alt="Многофактор.опросник Р.Кеттелла" width="164" height="116"></a>
-            </div>
-            <div class="price">3 602 руб.</div>
-            <div class="old-price">4200 руб.</div>
-            <div class="btn btn-blue btn-border"><a href="#">Купить</a></div>
-            </li><li>
-            <div class="title"><a href="#">Многофактор.опросник Р.Кеттелла</a></div>
-            <div class="/static/img">
-                <a href="#"><img src="/static/i/catalog-pic1.jpg" alt="Многофактор.опросник Р.Кеттелла" width="98" height="113"></a>
-            </div>
-            <div class="price">3 602 руб.</div>
-            <div class="old-price">4200 руб.</div>
-            <div class="btn btn-blue btn-border"><a href="#">Купить</a></div>
-            </li>
+            {% for i in novelty_home %}{% include 'item_short.html' with i=i %}{% endfor %}
         </ul>
         <!--// .catalog-list -->
     </div>
@@ -71,39 +32,7 @@
         <h2 class="headline">Рекомендуем</h2>
         <!-- .catalog-list -->
         <ul class="catalog-list">
-            <li>
-                <div class="title"><a href="#">Многофактор.опросник Р.Кеттелла</a></div>
-                <div class="/static/img">
-                    <a href="#"><img src="/static/i/catalog-pic1.jpg" alt="Многофактор.опросник Р.Кеттелла" width="98" height="113"></a>
-                </div>
-                <div class="price">3 602 руб.</div>
-                <div class="old-price">4200 руб.</div>
-                <div class="btn btn-blue btn-border"><a href="#">Купить</a></div>
-                </li><li>
-                <div class="title"><a href="#">Многофактор.опросник Р.Кеттелла</a></div>
-                <div class="/static/img">
-                <a href="#"><img src="/static/i/catalog-pic2.jpg" alt="Многофактор.опросник Р.Кеттелла" width="180" height="120"></a>
-                </div>
-                <div class="price">3 602 руб.</div>
-                <div class="old-price">4200 руб.</div>
-                <div class="btn btn-blue btn-border"><a href="#">Купить</a></div>
-            </li><li>
-                <div class="title"><a href="#">Многофактор.опросник Р.Кеттелла</a></div>
-                <div class="/static/img">
-                <a href="#"><img src="/static/i/catalog-pic3.jpg" alt="Многофактор.опросник Р.Кеттелла" width="164" height="116"></a>
-                </div>
-                <div class="price">3 602 руб.</div>
-                <div class="old-price">4200 руб.</div>
-                <div class="btn btn-blue btn-border"><a href="#">Купить</a></div>
-            </li><li>
-                <div class="title"><a href="#">Многофактор.опросник Р.Кеттелла</a></div>
-                <div class="/static/img">
-                <a href="#"><img src="/static/i/catalog-pic1.jpg" alt="Многофактор.опросник Р.Кеттелла" width="98" height="113"></a>
-                </div>
-                <div class="price">3 602 руб.</div>
-                <div class="old-price">4200 руб.</div>
-                <div class="btn btn-blue btn-border"><a href="#">Купить</a></div>
-            </li>
+            {% for i in recommend_home %}{% include 'item_short.html' with i=i %}{% endfor %}
         </ul>
         <!--// .catalog-list -->
     </div>

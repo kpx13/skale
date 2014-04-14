@@ -18,7 +18,7 @@
         </div> <!--tovarup-->
         {% csrf_token %}
     </form>    
-    {% thumbnail i.image.all.0.image "300" as im %}
+    {% thumbnail i.image.all.0.image "x180" as im %}
         <a href="/item/{{ i.slug }}/">
             <img src="{{ im.url }}" alt="" />
             {% if i.price_old %}
