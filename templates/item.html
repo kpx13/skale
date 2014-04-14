@@ -1,0 +1,110 @@
+{% extends 'base.html' %}
+
+{% load thumbnail %}
+
+{% block title %}{{ item.name }}{% endblock %}
+
+{% block content %}
+      <div class="highlighted goods">
+        <!-- .holder -->
+        <div class="holder">
+          <!-- .breadcrumbs -->
+          <ul class="breadcrumbs">
+            <li><a href="#">Главная</a></li>
+            <li><a href="#">Каталог</a></li>
+            <li><a href="#">Кабинет обж</a></li>
+            <li>{{ item.name }}</li>
+          </ul>
+          <!--// .breadcrumbs -->
+          <h1 class="headline">{{ item.name }}</h1>
+          <!-- .goods-block -->
+          <div class="goods-block dbl-border">
+            <!-- .goods-info -->
+            <div class="goods-info">
+              <!-- .details -->
+              <div class="details dbl-border">
+                <div class="btn btn-blue btn-bb to-cart">
+                  <a href="#">В корзину</a>
+                </div>
+                <div class="price">{{ item.price|floatformat:"0" }} руб.</div>
+                <div class="old-price">
+                    {% if item.price_old %}
+                        {{ item.price_old|floatformat:"0" }} руб.
+                    {% endif %}
+                </div>
+                <div class="count">
+                  <input type="text" value="1" id="goods-count">
+                  <label for="goods-count">шт.</label>
+                </div>
+              </div>
+              <!--// .details -->
+              <!-- .characteristics -->
+              {{ item.description|safe }}
+              <!--// .characteristics -->
+            </div>
+            <!--// .goods-info -->
+            <div class="goods-img">
+              <a href="#">
+                {% thumbnail item.image "250" as im %}
+                    <img src="{{ im.url }}" alt="{{ item.name }}">
+                {% endthumbnail %}
+              </a>
+            </div>
+          </div>
+          <!--// .goods-block -->
+          <!-- .goods-block -->
+          <div class="goods-block dbl-border">
+            <!-- .goods-description -->
+            <div class="goods-description">
+              {{ item.description_bottom|safe }}
+            </div>
+            <!--// .goods-description -->
+          </div>
+          <!--// .goods-block -->
+        </div>
+        <!--// .holder -->
+      </div>
+      <!--// .goods -->
+      <!-- .related -->
+      <div class="related highlighted catalog-block">
+        <h2 class="headline">Сопутствующие товары</h2>
+        <!-- .catalog-list -->
+        <ul class="catalog-list">
+          <li>
+            <div class="title"><a href="#">Многофактор.опросник Р.Кеттелла</a></div>
+            <div class="img">
+              <a href="#"><img src="/static/i/catalog-pic1.jpg" alt="Многофактор.опросник Р.Кеттелла" width="98" height="113"></a>
+            </div>
+            <div class="price">3 602 руб.</div>
+            <div class="old-price">4200 руб.</div>
+            <div class="btn btn-blue btn-bb"><a href="#">Купить</a></div>
+          </li><li>
+            <div class="title"><a href="#">Многофактор.опросник Р.Кеттелла</a></div>
+            <div class="img">
+              <a href="#"><img src="/static/i/catalog-pic2.jpg" alt="Многофактор.опросник Р.Кеттелла" width="180" height="120"></a>
+            </div>
+            <div class="price">3 602 руб.</div>
+            <div class="old-price">4200 руб.</div>
+            <div class="btn btn-blue btn-bb"><a href="#">Купить</a></div>
+          </li><li>
+            <div class="title"><a href="#">Многофактор.опросник Р.Кеттелла</a></div>
+            <div class="img">
+              <a href="#"><img src="/static/i/catalog-pic3.jpg" alt="Многофактор.опросник Р.Кеттелла" width="164" height="116"></a>
+            </div>
+            <div class="price">3 602 руб.</div>
+            <div class="old-price">4200 руб.</div>
+            <div class="btn btn-blue btn-bb"><a href="#">Купить</a></div>
+          </li><li>
+            <div class="title"><a href="#">Многофактор.опросник Р.Кеттелла</a></div>
+            <div class="img">
+              <a href="#"><img src="/static/i/catalog-pic1.jpg" alt="Многофактор.опросник Р.Кеттелла" width="98" height="113"></a>
+            </div>
+            <div class="price">3 602 руб.</div>
+            <div class="old-price">4200 руб.</div>
+            <div class="btn btn-blue btn-bb"><a href="#">Купить</a></div>
+          </li>
+        </ul>
+        <!--// .catalog-list -->
+      </div>
+      <!--// .related -->
+{% endblock %}
