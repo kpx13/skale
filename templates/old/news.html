@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block title %}Новости{% endblock %}
+
+{% load thumbnail %}
+
+{% block breadcrumb %}
+    <a href="" class="no">Новости</a>
+{% endblock %}
+
+{% block content %}
+    <div class="sep"></div> <!--sep-->
+
+    <div class="news">
+        {% for n in news %}
+            <a href="/news/{{ n.slug }}/">
+                <div class="nb">
+                    {% thumbnail n.image "300" as im %}
+                        <img src="{{ im.url }}" />
+                    {% endthumbnail %}
+                    
+                    <h2>{{ n.name }}</h2>
+                    <p>{{ n.text|removetags:"div p"|slice:":200" }}...</p>
+                </div> <!--nb-->
+            </a>
+        {% endfor %}
+
+    </div> <!--news-->
+
+    {% if need_pagination %}
+        <div class="inpgw">
+            {% if news.has_previous %}
+                <a href="{{ get_request }}?page={{ news.previous_page_number }}" class='transparent'><img src="/static/images/pl.png" /></a>
+            {% endif %}
+            {% for p in page_range %}
+                <a href="{{ get_request }}?page={{ p }}" class='transparent{% if p == news.number %} active{% endif %}'>{{ p }}</a>
+            {% endfor %}
+            {% if news.has_next %}
+                <a href="{{ get_request }}?page={{ news.next_page_number }}" class='transparent'><img src="/static/images/pr.png" /></a>
+            {% endif %}
+        </div> <!--pgw-->
+    {% endif %}
+    
+{% endblock %}

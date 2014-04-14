@@ -1,0 +1,41 @@
+{% load thumbnail %}
+ 
+<div class="block">
+    <form method='POST' action='/item/{{ i.slug }}/'>
+        <div class="tovarup">
+            {% if i.sizes.all %}
+                <span>Выбор размера</span>
+                {% for s in i.sizes.all %}
+                    <input id="Checkbox_{{ i.id }}_{{ s.name }}" name="size" value="{{ s.name }}" class="css-checkbox" type="checkbox" />
+                    <label for="Checkbox_{{ i.id }}_{{ s.name }}" name="lbl_Checkbox_{{ i.id }}_{{ s.name }}" class="css-label"><span>{{ s.name }}</span></label>                                      
+                    <br />
+                {% endfor %}
+            {% endif %}
+            <button type="submit" class="zakaz1">Подтвердить</button>
+            <input type="hidden" name='action' value="add_in_basket" />
+            <input type="hidden" name='item_id' value="{{ i.id }}" />
+            <a href="" class="tovarup-close">Закрыть</a>
+        </div> <!--tovarup-->
+        {% csrf_token %}
+    </form>    
+    {% thumbnail i.image.all.0.image "300" as im %}
+        <a href="/item/{{ i.slug }}/">
+            <img src="{{ im.url }}" alt="" />
+            {% if i.price_old %}
+                <img src="/static/img/sticker2.png" class='action' />
+            {% endif %}
+        </a>
+    {% endthumbnail %}
+    
+    <div class="dsc">
+        <a href="/item/{{ i.slug }}/" >{{ i.name }}</a>    
+    </div> <!--dsc-->   
+    {% if user_opt %}
+        <span>{{ i.price_opt|floatformat:"0" }} р.</span>
+    {% else %}
+        <span>{{ i.price|floatformat:"0" }} р.</span>
+    {% endif %}
+    <div class="clear"></div>
+    <div class="zakaz"><a href="">заказать</a></div>
+    
+</div> <!--block-->

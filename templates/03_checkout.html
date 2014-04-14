@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<!--[if IE 8]>         <html class="no-js ie ie8"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>03 checkout</title>
+  <link rel="stylesheet" href="css/main.css">
+  <script src="js/modernizr-2.6.2.min.js"></script>
+  <script src="js/jquery.min.js"></script>
+  <script src="js/jquery.placeholder.min.js"></script>
+  <script src="js/script.js"></script>
+</head>
+<body>
+  <!-- .root -->
+  <div class="root">
+    <!-- header -->
+    <header>
+      <!-- .h-cart -->
+      <div class="h-cart">
+        <div class="title"><a href="#">Корзина</a></div>
+        <ul>
+          <li><span class="label">Кол-во:</span> 0 штук</li>
+          <li><span class="label">Сумма:</span> 0 руб.</li>
+        </ul>
+        <a href="#" class="ico"></a>
+      </div>
+      <!--// .h-cart -->
+      <div class="logo"><a href="#">Природа в школе</a></div>
+      <!-- .h-contacts -->
+      <div class="h-contacts">
+        <div class="tel">+7 (495) 225-57-17</div>
+        <div class="time">
+          <div class="title">Прием заказов по телефону осуществляется</div>
+          с понедельника по пятницу с 10.00 до 18.00
+        </div>
+        <div class="request"><a href="#">Оставить заявку</a></div>
+        <div class="send-mail"><a href="#">Отправить письмо</a></div>
+      </div>
+      <!--// .h-contacts -->
+      <!-- .h-info -->
+      <div class="h-info">
+        <div class="on-portal">
+          <div class="title">Мы на портале поставщиков</div>
+          <div class="link"><a href="#">http://market.zakupki.mos.ru/</a></div>
+        </div>
+        <div class="legal-note">
+          <span class="title">ООО "Природа в школе"</span> ИНН:7720723239 <br>КПП:772001001 ОГРН:1117746568939
+        </div>
+      </div>
+      <!--// .h-info -->
+    </header>
+    <!--// header -->
+    <!-- .menu -->
+    <nav class="menu">
+      <ul>
+        <li><a href="#">Главная</a></li>
+        <li><a href="#">О нас</a></li>
+        <li><a href="#">Наши новости</a></li>
+        <li><a href="#">Каталог продукции</a></li>
+        <li><a href="#">Прайс-лист</a></li>
+        <li><a href="#">Доставка</a></li>
+        <li><a href="#">Контакты</a></li>
+      </ul>
+    </nav>
+    <!--// .menu -->
+    <!-- .content -->
+    <div class="content">
+      <!-- .checkout -->
+      <div class="highlighted checkout">
+        <!-- .holder -->
+        <div class="holder">
+          <!-- .breadcrumbs -->
+          <ul class="breadcrumbs">
+            <li><a href="#">Главная</a></li>
+            <li>Оформить заказ</li>
+          </ul>
+          <!--// .breadcrumbs -->
+          <h2 class="headline">Оформить заказ</h2>
+          <!-- .checkout-in -->
+          <div class="checkout-in">
+            <!-- .col -->
+            <form action="#" class="col right">
+              <div class="title">Оформить заказ для <b>юр. лица</b></div>
+              <div class="form-row">
+                <input type="text" placeholder="Название юр. лица*">
+              </div>
+              <div class="form-row">
+                <input type="text" placeholder="ИНН*">
+              </div>
+              <div class="form-row">
+                <input type="text" placeholder="КПП*">
+              </div>
+              <div class="form-row">
+                <input type="text" placeholder="Юр.адрес">
+              </div>
+              <div class="form-row">
+                <input type="text" placeholder="Контакты">
+              </div>
+              <div class="form-row">
+                <input type="text" placeholder="Комментарий">
+              </div>
+              <!-- .delivery -->
+              <div class="delivery">
+                <h3 class="headline">Доставка</h3>
+                <ul class="delivery-list">
+                  <li><label><input type="radio" name="delivery-physical">Доставка по Москве</label></li>
+                  <li><label><input type="radio" name="delivery-physical">Доставка до ТК</label></li>
+                  <li><label><input type="radio" name="delivery-physical">Доставка до двери за пределами
+                    Москвы</label></li>
+                  <li><label><input type="radio" name="delivery-physical">Самовывоз со склада в Москве</label></li>
+                </ul>
+              </div>
+              <!--// .delivery -->
+              <button class="btn btn-orange">Оформить</button>
+            </form>
+            <!--// .col -->
+            <!-- .col -->
+            <form action="#" class="col left">
+              <div class="title">Оформить заказ для <b>физ. лица</b></div>
+              <div class="form-row">
+                <input type="text" placeholder="Фамилия*">
+              </div>
+              <div class="form-row">
+                <input type="text" placeholder="Имя*">
+              </div>
+              <div class="form-row">
+                <input type="text" placeholder="Паспортные данные*">
+              </div>
+              <div class="form-row">
+                <input type="text" placeholder="Адрес доставки">
+              </div>
+              <div class="form-row">
+                <input type="text" placeholder="Контакты">
+              </div>
+              <div class="form-row">
+                <input type="text" placeholder="Комментарий">
+              </div>
+              <!-- .delivery -->
+              <div class="delivery">
+                <h3 class="headline">Доставка</h3>
+                <ul class="delivery-list">
+                  <li><label><input type="radio" name="delivery-physical">Доставка по Москве</label></li>
+                  <li><label><input type="radio" name="delivery-physical">Доставка до ТК</label></li>
+                  <li><label><input type="radio" name="delivery-physical">Доставка до двери за пределами
+                    Москвы</label></li>
+                  <li><label><input type="radio" name="delivery-physical">Самовывоз со склада в Москве</label></li>
+                </ul>
+              </div>
+              <!--// .delivery -->
+              <button class="btn btn-orange">Оформить</button>
+            </form>
+            <!--// .col -->
+          </div>
+          <!--// .checkout-in -->
+        </div>
+        <!--// .holder -->
+      </div>
+      <!--// .checkout -->
+      <div class="checkout-required-note">* Поле обязательное для заполнения</div>
+    </div>
+    <!--// .content -->
+    <!-- .sidebar -->
+    <div class="sidebar">
+      <!-- .side-nav -->
+      <nav class="side-nav">
+        <ul>
+          <li><a href="#">Ваша Новостройка</a></li>
+          <li><span>Учебные пособия</span>
+            <ul>
+              <li><a href="#">Стенды для школьных кабинетов</a></li>
+              <li><a href="#">Мультимедийные диски КиМ</a></li>
+              <li><a href="#">Кабинет Химии</a></li>
+              <li><a href="#">Кабинет Физики</a></li>
+              <li><a href="#">Кабинет Биологии</a></li>
+              <li><a href="#">Кабинет Русского языка</a></li>
+              <li><a href="#">Кабинет Труда</a></li>
+              <li><a href="#">Кабинет труда слесарный</a></li>
+              <li><a href="#">Кабинет труда столярный</a></li>
+              <li><a href="#">Кабинет Черчения и ИЗО</a></li>
+              <li><a href="#">Компакт-диски для</a></li>
+              <li><a href="#">учителяКомпьютерный класс</a></li>
+              <li><a href="#">Мебель школьная</a></li>
+              <li><a href="#">Медицинское оборудование-</a></li>
+              <li><a href="#">Уточнять цены</a></li>
+            </ul>
+          </li>
+          <li><span>Школьная мебель</span>
+            <ul>
+              <li><a href="#">Стенды для школьных кабинетов</a></li>
+              <li><a href="#">Мультимедийные диски КиМ</a></li>
+              <li><a href="#">Кабинет Химии</a></li>
+              <li><a href="#">Кабинет Физики</a></li>
+              <li><a href="#">Кабинет Биологии</a></li>
+              <li><a href="#">Кабинет Русского языка</a></li>
+              <li><a href="#">Кабинет Труда</a></li>
+              <li><a href="#">Кабинет труда слесарный</a></li>
+              <li><a href="#">Кабинет труда столярный</a></li>
+              <li><a href="#">Кабинет Черчения и ИЗО</a></li>
+              <li><a href="#">Компакт-диски для</a></li>
+              <li><a href="#">учителяКомпьютерный класс</a></li>
+              <li><a href="#">Мебель школьная</a></li>
+              <li><a href="#">Медицинское оборудование-</a></li>
+              <li><a href="#">Уточнять цены</a></li>
+            </ul>
+          </li>
+          <li class="two-strings"><span>Интерактивные средства обучения</span>
+            <ul>
+              <li><a href="#">Стенды для школьных кабинетов</a></li>
+              <li><a href="#">Мультимедийные диски КиМ</a></li>
+              <li><a href="#">Кабинет Химии</a></li>
+              <li><a href="#">Кабинет Физики</a></li>
+              <li><a href="#">Кабинет Биологии</a></li>
+              <li><a href="#">Кабинет Русского языка</a></li>
+              <li><a href="#">Кабинет Труда</a></li>
+              <li><a href="#">Кабинет труда слесарный</a></li>
+              <li><a href="#">Кабинет труда столярный</a></li>
+              <li><a href="#">Кабинет Черчения и ИЗО</a></li>
+              <li><a href="#">Компакт-диски для</a></li>
+              <li><a href="#">учителяКомпьютерный класс</a></li>
+              <li><a href="#">Мебель школьная</a></li>
+              <li><a href="#">Медицинское оборудование-</a></li>
+              <li><a href="#">Уточнять цены</a></li>
+            </ul>
+          </li>
+          <li class="two-strings"><span>Специализированное оборудование</span>
+            <ul>
+              <li><a href="#">Стенды для школьных кабинетов</a></li>
+              <li><a href="#">Мультимедийные диски КиМ</a></li>
+              <li><a href="#">Кабинет Химии</a></li>
+              <li><a href="#">Кабинет Физики</a></li>
+              <li><a href="#">Кабинет Биологии</a></li>
+              <li><a href="#">Кабинет Русского языка</a></li>
+              <li><a href="#">Кабинет Труда</a></li>
+              <li><a href="#">Кабинет труда слесарный</a></li>
+              <li><a href="#">Кабинет труда столярный</a></li>
+              <li><a href="#">Кабинет Черчения и ИЗО</a></li>
+              <li><a href="#">Компакт-диски для</a></li>
+              <li><a href="#">учителяКомпьютерный класс</a></li>
+              <li><a href="#">Мебель школьная</a></li>
+              <li><a href="#">Медицинское оборудование-</a></li>
+              <li><a href="#">Уточнять цены</a></li>
+            </ul>
+          </li>
+          <li class="active"><span>Детский сад</span>
+            <ul>
+              <li><a href="#">Стенды для школьных кабинетов</a></li>
+              <li><a href="#">Мультимедийные диски КиМ</a></li>
+              <li><a href="#">Кабинет Химии</a></li>
+              <li><a href="#">Кабинет Физики</a></li>
+              <li><a href="#">Кабинет Биологии</a></li>
+              <li><a href="#">Кабинет Русского языка</a></li>
+              <li><a href="#">Кабинет Труда</a></li>
+              <li><a href="#">Кабинет труда слесарный</a></li>
+              <li><a href="#">Кабинет труда столярный</a></li>
+              <li><a href="#">Кабинет Черчения и ИЗО</a></li>
+              <li><a href="#">Компакт-диски для</a></li>
+              <li><a href="#">учителяКомпьютерный класс</a></li>
+              <li><a href="#">Мебель школьная</a></li>
+              <li><a href="#">Медицинское оборудование-</a></li>
+              <li><a href="#">Уточнять цены</a></li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+      <!--// .side-nav -->
+      <!-- .side-news -->
+      <div class="side-news">
+        <div class="side-caption">Наши новости</div>
+        <!-- .side-news-list -->
+        <ul class="side-news-list">
+          <li>
+            <div class="img">
+              <a href="#"><img src="i/side-news-pic1.jpg" alt="Новый прайс-лист доступен для скачивания" width="229" height="74"></a>
+            </div>
+            <div class="title"><a href="#">Новый прайс-лист доступен для скачивания</a></div>
+            <div class="txt">Уважаемые коллеги, обращаем ваше внимание на изменение цен на продукцию. Новый прайс-лист ...</div>
+            <div class="date">16.06.2010</div>
+          </li>
+          <li>
+            <div class="title"><a href="#">Новый прайс-лист доступен для скачивания</a></div>
+            <div class="txt">Уважаемые коллеги, обращаем ваше внимание на изменение цен на продукцию. Новый прайс-лист ...</div>
+            <div class="date">16.06.2010</div>
+          </li>
+          <li>
+            <div class="title"><a href="#">Новый прайс-лист доступен для скачивания</a></div>
+            <div class="txt">Уважаемые коллеги, обращаем ваше внимание на изменение цен на продукцию. Новый прайс-лист ...</div>
+            <div class="date">16.06.2010</div>
+          </li>
+        </ul>
+        <!--// .side-news-list -->
+        <div class="view-all"><a href="#">Все новости</a></div>
+      </div>
+      <!--// .side-news -->
+    </div>
+    <!--// .sidebar -->
+    <div class="empty"></div>
+  </div>
+  <!--// .root -->
+  <!-- footer -->
+  <footer>
+    <!-- .footer-in -->
+    <div class="footer-in">
+      <!-- .f-menu -->
+      <nav class="f-menu">
+        <ul>
+          <li><a href="#">Главная</a></li>
+          <li><a href="#">О нас</a></li>
+          <li><a href="#">Наши работы</a></li>
+          <li><a href="#">Наши новости</a></li>
+          <li><a href="#">Каталог продукции</a></li>
+          <li><a href="#">Прайс-лист</a></li>
+          <li><a href="#">Услуги</a></li>
+          <li><a href="#">Контакты</a></li>
+        </ul>
+      </nav>
+      <!--// .f-menu -->
+      <ul class="f-contacts">
+        <li>+7 (495) 225-52-84 +7 (495) 589-03-03</li>
+        <li>г. Москва, 123057, ул. Улица, дом 11.</li>
+      </ul>
+      <ul class="copyright">
+        <li>Copyright © 2014</li>
+        <li>Природа в школе</li>
+      </ul>
+    </div>
+    <!--// .footer-in -->
+  </footer>
+  <!--// footer -->
+</body>
+</html>

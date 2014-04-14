@@ -1,0 +1,10 @@
+@font-face {
+  font-family: 'a_futuraroundbold';
+  src: url('fonts/8126411-webfont.eot');
+  src: url('fonts/8126411-webfont.eot?#iefix') format('embedded-opentype'),
+       url('fonts/8126411-webfont.woff') format('woff'),
+       url('fonts/8126411-webfont.ttf') format('truetype'),
+       url('fonts/8126411-webfont.svg#a_futuraroundbold') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}

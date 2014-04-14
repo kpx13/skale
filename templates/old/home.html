@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+
+{% block slider %}
+    <div class="sliderw">
+        <div class="slider">
+
+            <div class="mask"></div>
+            <div class="slider-wrapper theme-default">
+                <div id="slider" class="nivoSlider">
+                    {% for s in slideshow %}    
+                        <a href="{{ s.href }}"><img src="/media/{{ s.image }}" data-thumb="/media/{{s.image}}" alt="{{ s.name }}"/></a>
+                    {% endfor %}
+                </div> <!--nivoSlider-->
+
+            </div>   <!--slider-wrapper theme-default-->
+    
+        </div> <!--slider-->   
+    </div> <!--sliderw-->
+{% endblock %}
+
+{% block breadcrumb %}
+{% endblock %}
+
+{% block content %}
+    <div class="catalog">
+        {% if items %}
+            {% for i in items.all %}
+               {% include 'item_short.html' with i=i %}
+            {% endfor %}
+        {% else %}
+            <p>Товары для показа на главной не выбраны.</p>
+        {% endif %}
+    </div>
+{% endblock %}

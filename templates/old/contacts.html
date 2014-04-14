@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+
+{% block title %}Контакты{% endblock %}
+
+{% block breadcrumb %}
+    <a href="" class="no">Контакты</a>
+{% endblock %}
+
+{% block content %}
+    <br>
+    <hr>
+    <table width="100%">
+
+        <tr>
+            <td width="30%">
+                <p><b>Менеджеры</b><br>
+                    +7 (495) 948-66-11<br>
+                    +7 (910) 565-03-33<br>
+                </p></td>
+
+            <td width="30%"><p><b>Электронные контакты</b><br>
+                    paksgalant99@rambler.ru</p>
+            </td>
+
+            <td></td>
+
+        </tr>
+    </table>
+    
+    <hr>    
+    {% if user_opt %}
+        <script type="text/javascript" charset="utf-8" src="//api-maps.yandex.ru/services/constructor/1.0/js/?sid=9lBkNNVE0_JmDGgMaAzKAobxM71187MV&width=600&height=450"></script>
+        <hr />
+    {% endif %}
+
+    <p><strong>Задать вопрос</strong></p>
+
+    <div class="forms contacts">
+        {% if msg_sent %}
+            <p style='color: red'>Ваше сообщение отправлено.</p>
+        {% endif %}
+        <form method='POST'>
+            <label>Ваше имя</label>
+            {{ form.name }}
+            {% if form.name.errors %}
+                <div class="fail">{{ form.name.errors.0 }}</div>
+            {% endif %}
+
+            <label>E-mail</label>
+            {{ form.email }}
+            {% if form.email.errors %}
+                <div class="fail">{{ form.email.errors.0 }}</div>
+            {% endif %}
+
+            <label>Вопрос</label><textarea name="msg" wrap="virtual">{% if form.data.msg %}{{ form.data.msg }}{% endif %}</textarea>
+            {% if form.msg.errors %}
+                <div class="fail">{{ form.msg.errors.0 }}</div>
+            {% endif %}
+
+            <div class="clear"></div>
+
+            <input type="submit" class="send" value="Отправить">
+         <input type='hidden' name='action' value='feedback' />
+            {% csrf_token %}
+        </form>
+
+    </div> <!--forms-->
+{% endblock %}

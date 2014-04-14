@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block extended_head %}
+    {{ header_content|safe }}
+{% endblock %}
+
+{% block breadcrumb %}
+    <a href="" class="no">{{ title }}</a>
+{% endblock %}
+
+{% block content %}
+    {{ content|safe }}
+{% endblock %}

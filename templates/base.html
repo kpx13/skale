@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<!--[if IE 8]>         <html class="no-js ie ie8"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Природа в школе | {% block title %}{% endblock %}</title>
+  <link rel="stylesheet" href="/static/css/main.css">
+  <script src="/static/js/modernizr-2.6.2.min.js"></script>
+  <script src="/static/js/jquery.min.js"></script>
+  <script src="/static/js/jquery.placeholder.min.js"></script>
+  <script src="/static/js/script.js"></script>
+</head>
+<body class="index-page">
+  <!-- .root -->
+  <div class="root">
+    <!-- header -->
+    <header>
+      <!-- .h-cart -->
+      <div class="h-cart">
+        <div class="title"><a href="#">Корзина</a></div>
+        <ul>
+          <li><span class="label">Кол-во:</span> 0 штук</li>
+          <li><span class="label">Сумма:</span> 0 руб.</li>
+        </ul>
+        <a href="#" class="ico"></a>
+      </div>
+      <!--// .h-cart -->
+      <div class="logo"><a href="#">Природа в школе</a></div>
+      <!-- .h-contacts -->
+      <div class="h-contacts">
+        <div class="tel">+7 (495) 225-57-17</div>
+        <div class="time">
+          <div class="title">Прием заказов по телефону осуществляется</div>
+          с понедельника по пятницу с 10.00 до 18.00
+        </div>
+        <div class="send-mail"><a href="#">Отправить письмо</a></div>
+      </div>
+      <!--// .h-contacts -->
+      <!-- .h-info -->
+      <div class="h-info">
+        <div class="on-portal">
+          <div class="title">Мы на портале поставщиков</div>
+          <div class="link"><a href="#">http://market.zakupki.mos.ru/</a></div>
+        </div>
+        <div class="legal-note">
+          <span class="title">ООО "Природа в школе"</span> ИНН:7720723239 <br>КПП:772001001 ОГРН:1117746568939
+        </div>
+      </div>
+      <!--// .h-info -->
+    </header>
+    <!--// header -->
+    <!-- .menu -->
+    <nav class="menu">
+      {% include 'main_menu.html' %}
+    </nav>
+    <!--// .menu -->
+    <!-- .content -->
+    <div class="content">
+        {% block content %}
+        {% endblock %}
+    </div>
+    <!--// .content -->
+    <!-- .sidebar -->
+    <div class="sidebar">
+      <!-- .side-nav -->
+      {% include 'left_menu.html' %}
+      <!--// .side-nav -->
+      <!-- .side-news -->
+      {% include 'left_news.html' %}
+      <!--// .side-news -->
+    </div>
+    <!--// .sidebar -->
+    <div class="empty"></div>
+  </div>
+  <!--// .root -->
+  <!-- footer -->
+  <footer>
+    <!-- .footer-in -->
+    <div class="footer-in">
+      <!-- .f-menu -->
+      <nav class="f-menu">
+        {% include 'main_menu.html' %}
+      </nav>
+      <!--// .f-menu -->
+      <ul class="f-contacts">
+        <li>+7 (495) 225-52-84 +7 (495) 589-03-03</li>
+        <li>г. Москва, 123057, ул. Улица, дом 11.</li>
+      </ul>
+      <ul class="copyright">
+        <li>Copyright © 2014</li>
+        <li>Природа в школе</li>
+      </ul>
+    </div>
+    <!--// .footer-in -->
+  </footer>
+  <!--// footer -->
+</body>
+</html>

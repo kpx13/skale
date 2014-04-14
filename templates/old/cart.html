@@ -1,0 +1,119 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block breadcrumb %}
+   <a href="" class="no">Моя корзина</a>
+{% endblock %}
+
+{% block content %}
+    {% if items %}
+        <table width="100%" class="check">
+            <tr class="heds">
+                <td >Фото</td>
+                <td width='40%'>Описание</td>
+                <td>Количество</td>
+                <td>Цена</td>
+                <td >Сумма</td>
+                <td ></td>
+            </tr>
+            
+            {% for i in items %}
+                <tr>
+                    <td><a href='/item/{{i.item.slug}}/'><img src="/media/{{ i.item.image.all.0.image }}" /></a></td>
+                    <td>
+                        <a href='/item/{{i.item.slug}}/' style='text-decoration: none'><p><strong>{{ i.item.name }}</strong></p></a>
+                        <p>Артикул: {{ i.item.art }}</p>
+                        <p>Цвет: {{ i.item.color }}</p>
+                        {% if i.size %}<p>Размер: {{ i.size }}</p>{% endif %}
+                    </td>
+                    <td style='text-align: center'>
+                        <div class="number">
+                            <div class="tnum1w"  style='margin: 0 auto; '>
+                                <div class="tnum1w1">
+                                    <form method='POST'>
+                                        <button type="submit" value="minus" name="action"  class="minus"><span>-</span></button>
+                                        <input type="text" value="{{ i.count }}" size="2" class="tnum1" name='set_count' />
+                                        <button type="submit" value="plus" name="action" class="plus" ><span>+</span></button>
+                                        <input type="hidden" name='item_id' value="{{ i.item.id }}" />
+                                        <input type="hidden" name='size' value="{{ i.size }}" />
+                                        {% csrf_token %}
+                                    </form>                
+                                </div> <!--tnum1w1-->
+                            </div> <!--tnum1w-->
+                        </div> <!--number-->
+
+                    </td>
+                    <td><div class="price nobright"> {{ i.price|floatformat:"0" }} </div></td>
+                    <td><div class="price"> {{ i.sum|floatformat:"0" }}</div></td>
+                    <td>
+                        <form method='POST'>
+                            <button type="submit" name='action' value="del_from_basket" class='minus' />
+                                <div class="trash"></div>
+                            </button>
+                            <input type="hidden" name='item_id' value="{{ i.item.id }}" />
+                            <input type="hidden" name='size' value="{{ i.size }}" />
+                            {% csrf_token %}
+                        </form>
+                    </td>
+                        
+                    
+                </tr>
+            {% endfor %}
+        </table>
+        
+        <div class="sorting">
+            
+            <form method='GET'>
+                <div class="sortnumleft">
+                    <span>Показывать по:</span> 
+                    <select name="count" class="selectyze2 sortnum_select">
+                        <option value="10" {% if count == '10' %}selected{% endif %}>10</option>
+                        <option value="30" {% if count == '30' %}selected{% endif %}>30</option>
+                        <option value="50" {% if count == '50' %}selected{% endif %}>50</option>
+                    </select>
+                </div> <!--sortnum-->
+            </form>
+            <script>
+                $('.sortnum_select').change(function(){
+                    $(this).parent().parent().submit();
+                });
+            </script>
+            
+            <div class="sortpage">
+               {% if need_pagination %}
+                    <div class="inpgw">
+                        {% if items.has_previous %}
+                            <a href="{{ get_request }}?page={{ items.previous_page_number }}" class='transparent'><img src="/static/images/pl.png" /></a>
+                        {% endif %}
+                        {% for p in page_range %}
+                            <a href="{{ get_request }}?page={{ p }}" class='transparent{% if p == items.number %} active{% endif %}'>{{ p }}</a>
+                        {% endfor %}
+                        {% if items.has_next %}
+                            <a href="{{ get_request }}?page={{ items.next_page_number }}" class='transparent'><img src="/static/images/pr.png" /></a>
+                        {% endif %}
+                    </div> <!--pgw-->
+                {% endif %}
+            </div> <!--sortpage-->
+        </div> <!--sorting-->
+
+        <div class="proceed">
+
+        <!--    <div class="p1">
+                <input type="submit" class="checkout" value="распечатать">
+            </div> -->
+
+            <div class="p2">
+
+                <p>Сумма заказа: <span> {{ cart_sum|floatformat:"0" }} руб.</span></p>
+                <a href="/order/1/" class="checkout1">оформить</a>
+
+            </div> <!--p2-->
+
+        </div> <!--proceed-->
+    {% else %}
+        <h2>Ваша корзина пуста.</h2>
+    {% endif %}
+
+{% endblock %}
+

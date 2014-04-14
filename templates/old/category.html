@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block extended_head %}
+    <link rel="stylesheet" href="/static/css/Selectyze.jquery.css" type="text/css" />
+    <script type="text/javascript" src="/static/js/Selectyze.jquery.min.js"></script>
+    <script type="text/javascript">
+            $(document).ready(function(){
+                    $('.selectyze1').Selectyze({
+                            theme : 'skype'
+                        });
+            
+                    $('.selectyze2').Selectyze({
+                            theme : 'mac',
+                 
+                            effectOpen:'slide',
+                            effectClose:'fade'
+                        });
+            
+                    $('.selectyze3').Selectyze({
+                            theme : 'grey'
+                        }); 
+            
+                    $('.selectyze4').Selectyze({
+                            theme : 'firefox'
+                        });
+            
+                    $('.selectyze5').Selectyze({
+                            theme : 'css3'
+                        });
+
+                });
+        </script>
+    
+{% endblock %}
+
+{% block slider %}
+    <div id="simplediv" style="background-color:yellow;border:1px solid black;display:none;width:200px;height:200px;">Click anywhere in the document to auto-close me</div>
+{% endblock %}
+
+{% block breadcrumb %}
+    {% for p in category.breadcrumb %}
+        <a href="/category/{{ p.slug }}">{{ p.name }}</a>
+    {% empty %}
+        <a href="/category/" {% if not category %} class="no" {% endif %}>Каталог</a>
+    {% endfor %}
+    {% if category %}
+        <a href="" class="no">{{ category.name }}</a>
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+    
+    {% include 'sorting.html' %}
+    
+    <div class="catalog">
+        {% if items %}
+            {% for i in items %}
+                {% include 'item_short.html' with i=i %}
+            {% endfor %}
+        {% else %}
+            <p>В этой категории нет товаров.</p>
+        {% endif %}
+    </div> <!--catalog-->
+
+    {% include 'sorting.html' %}
+
+{% endblock %}
+
+{% block left_filter %}
+    {% include 'filter.html' %}
+{% endblock %}
