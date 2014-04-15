@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+
+{% load thumbnail %}
+
+{% block title %}{{ item.name }}{% endblock %}
+
+{% block content %}
+
+    <div class="highlighted">
+        <!-- .holder -->
+        <div class="holder">
+          <!-- .breadcrumbs -->
+          <ul class="breadcrumbs">
+            <li><a href="/">Главная</a></li>
+            <li>{{ item.name }}</li>
+          </ul>
+          <!--// .breadcrumbs -->
+          <h1 class="headline">{{ item.name }}</h1>
+          <!-- .txt-block -->
+          <div class="txt-block dbl-border">
+            <img src="/media/{{ item.image }}" alt="{{ item.name }}" width="785">
+            {{ item.text|safe }}
+          </div>
+          <!--// .txt-block -->
+        </div>
+        <!--// .holder -->
+      </div>
+      <!--// .highlighted -->
+
+{% endblock %}
+
+    <div class="highlighted">
+        <!-- .holder -->
+        <div class="holder">
+          <!-- .breadcrumbs -->
+          <ul class="breadcrumbs">
+            <li><a href="/">Главная</a></li>
+            <li><a href="/news/">Новости</a></li>
+            <li>{{ item.name }}</li>
+          </ul>
+          <!--// .breadcrumbs -->
+          <!-- .txt-block -->
+            <div class="txt-block dbl-border">
+                <a href="/news/{{ item.slug }}/"><h1 class="headline">{{ item.name }}</h1></a>
+                {% if item.image %}<a href="/news/{{ item.slug }}/"><img src="/media/{{ item.image }}" alt="{{ item.name }}" width="785"></a>{% endif %}
+                <p>{{ item.text|removetags:"div p"|truncatechars:1710 }}</p>
+            </div>
+          <!--// .txt-block -->
+        </div>
+        <!--// .holder -->
+      </div>
+      <!--// .highlighted -->

@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block extended_head %}
+    {{ header_content|safe }}
+{% endblock %}
+
+{% block content %}
+
+    <div class="highlighted">
+        <!-- .holder -->
+        <div class="holder">
+          <!-- .breadcrumbs -->
+          <ul class="breadcrumbs">
+            <li><a href="/">Главная</a></li>
+            <li>{{ title }}</li>
+          </ul>
+          <!--// .breadcrumbs -->
+          <h1 class="headline">{{ title }}</h1>
+          <!-- .txt-block -->
+          <div class="txt-block dbl-border">
+            {{ content|safe }}
+          </div>
+          <!--// .txt-block -->
+        </div>
+        <!--// .holder -->
+      </div>
+      <!--// .highlighted -->
+{% endblock %}

@@ -2,24 +2,25 @@
     <div class="side-caption">Наши новости</div>
     <!-- .side-news-list -->
     <ul class="side-news-list">
-        <li>
-        <div class="img">
-            <a href="#"><img src="/static/i/side-news-pic1.jpg" alt="Новый прайс-лист доступен для скачивания" width="229" height="74"></a>
-        </div>
-        <div class="title"><a href="#">Новый прайс-лист доступен для скачивания</a></div>
-        <div class="txt">Уважаемые коллеги, обращаем ваше внимание на изменение цен на продукцию. Новый прайс-лист ...</div>
-        <div class="date">16.06.2010</div>
-        </li>
-        <li>
-        <div class="title"><a href="#">Новый прайс-лист доступен для скачивания</a></div>
-        <div class="txt">Уважаемые коллеги, обращаем ваше внимание на изменение цен на продукцию. Новый прайс-лист ...</div>
-        <div class="date">16.06.2010</div>
-        </li>
-        <li>
-        <div class="title"><a href="#">Новый прайс-лист доступен для скачивания</a></div>
-        <div class="txt">Уважаемые коллеги, обращаем ваше внимание на изменение цен на продукцию. Новый прайс-лист ...</div>
-        <div class="date">16.06.2010</div>
-        </li>
+    
+         {% for n in news_left %}
+            
+            <li>
+                {% if n.image %}
+                    <div class="img">
+                        <a href="/news/{{ n.slug }}/"><img src="/media/{{ n.image }}" alt="{{ n.name }}" width="229"></a>
+                    </div>
+                {% endif %}
+                <div class="title"><a href="/news/{{ n.slug }}/">{{ n.name }}</a></div>
+                <div class="txt">{{ n.text|removetags:"div p"|truncatechars:130 }}</div>
+                <div class="date">{{ n.date }}</div>
+            </li>
+            
+        
+        {% endfor %}
+    
+        
+       
     </ul>
     <!--// .side-news-list -->
     <div class="view-all">

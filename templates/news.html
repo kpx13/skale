@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block title %}Новости{% endblock %}
+
+{% load thumbnail %}
+
+{% block content %}
+    
+      <!-- .highlighted -->
+      <div class="highlighted">
+        <!-- .holder -->
+        <div class="holder">
+          <!-- .breadcrumbs -->
+          <ul class="breadcrumbs">
+            <li><a href="/">Главная</a></li>
+            <li>Новости</li>
+          </ul>
+          <!--// .breadcrumbs -->
+            {% for n in news %}
+            
+                <div class="txt-block dbl-border">
+                    <a href="/news/{{ n.slug }}/"><h1 class="headline">{{ n.name }}</h1></a>
+                    {% if n.image %}<a href="/news/{{ n.slug }}/"><img src="/media/{{ n.image }}" alt="{{ n.name }}" width="785"></a>{% endif %}
+                    <p>{{ n.text|removetags:"div p"|truncatechars:1710 }}</p>
+                </div>
+            
+            {% endfor %}
+        </div>
+        <!--// .holder -->
+      </div>
+      <!--// .highlighted -->
+    
+{% endblock %}
