@@ -19,10 +19,9 @@ urlpatterns = patterns('',
     url(r'^ckeditor/', include('ckeditor.urls')),
     url(r'^accounts/', include('registration.urls')),
 
+    url(r'^search/$', views.search),
     url(r'^$' , views.home_page),
     url(r'^register/$' , views.register),
-    url(r'^logout/$' , views.logout_user),
-    url(r'^contacts/$' , views.contacts),
     url(r'^lk/$' , views.lk),
     url(r'^cart/$' , views.cart),
     url(r'^order/$' , views.order),
@@ -34,7 +33,8 @@ urlpatterns = patterns('',
     
     url(r'^news/(?P<slug>[\w-]+)/$' , views.news),
     url(r'^news/$' , views.news),
-    
+    url(r'^sitemap.xml$' , views.sitemap),
+    url(r'^sitemap.xml/$' , views.sitemap),
     url(r'^(?P<page_name>[\w-]+)/$' , views.other_page),
     
 )

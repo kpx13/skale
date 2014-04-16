@@ -6,6 +6,8 @@ from ckeditor.fields import RichTextField
 import pytils
 import datetime
 from dashboard import string_with_title
+from django.db.models import Q
+
 
 class Category(MPTTModel):
     name = models.CharField(max_length=50, unique=True, verbose_name=u'название')
@@ -56,6 +58,11 @@ class Category(MPTTModel):
             return Category.objects.get(id=id_)
         except:
             return None
+        
+    @staticmethod
+    def search(query):
+        return Category.objects.filter(Q(name__icontains=query))
+    
 
 class Item(models.Model):
     category = models.ForeignKey(Category, verbose_name=u'категория', related_name='items')
@@ -93,6 +100,13 @@ class Item(models.Model):
             return Item.objects.get(id=id_)
         except:
             return None
+        
+    @staticmethod
+    def search(query):
+        return Item.objects.filter(Q(name__icontains=query) |
+                                   Q(art__icontains=query) |
+                                   Q(description__icontains=query) |
+                                   Q(description_bottom__icontains=query))
     
     @staticmethod
     def get_home():

@@ -110,8 +110,6 @@ INSTALLED_APPS = (
     'mptt',
     
     'catalog',
-    'call_request',
-    'feedback',
     'news',
     'pages',
     'users',

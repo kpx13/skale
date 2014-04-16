@@ -11,15 +11,13 @@ from django.forms.util import ErrorList
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 import datetime
 
-from call_request.forms import CallRequestForm
 from pages.models import Page
 from news.models import NewsItem
 from catalog.models import Category, Item
 from shop.models import Cart, Order
 from shop.forms import OrderForm
 from sessionworking import SessionCartWorking
-from users.forms import RegisterForm, ProfileForm, UserOrderDataFiz, OrderDataFizForm, OrderDataUrForm
-from feedback.forms import FeedbackForm
+from users.forms import RegisterForm, OrderDataFizForm, OrderDataUrForm
 from slideshow.models import Slider
 
 NEWS_PAGINATION_COUNT = 10
@@ -198,22 +196,6 @@ def order(request):
         return render_to_response('order_fiz.html', c, context_instance=RequestContext(request))
 
 
-def contacts(request):
-    reset_catalog(request)
-    c = get_common_context(request)
-    if request.method == 'GET':
-        c['form'] = FeedbackForm()
-    else:
-        form = FeedbackForm(request.POST)
-        if form.is_valid():
-            form.save()
-            form = FeedbackForm()
-            c['msg_sent'] = u'Ваш отзыв отправлен. Спасибо.'
-        else:
-            c['request_form'] = form
-        c['form'] = form
-    return render_to_response('contacts.html', c, context_instance=RequestContext(request))
-
 def lk(request):
     c = get_common_context(request)
     if not request.user.is_authenticated():
@@ -309,6 +291,20 @@ def register(request):
                 
     return render_to_response('register.html', c, context_instance=RequestContext(request))
 
-def logout_user(request):
-    auth.logout(request)
+
+def search(request):
+    c = get_common_context(request)
+    if request.method == 'POST':
+        q = request.POST.get('q', '')
+        if q:
+            c['q'] = q
+            c['s_categories'] = Category.search(q)
+            c['s_items'] = Item.search(q)
+            return render_to_response('search_res.html', c, context_instance=RequestContext(request))
     return HttpResponseRedirect('/')
+
+def sitemap(request):
+    c = get_common_context(request)
+    return render_to_response('sitemap.html', c, context_instance=RequestContext(request))
+
+

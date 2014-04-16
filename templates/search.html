@@ -1,6 +1,13 @@
-      <div class="search-block">
-        <button>Поиск</button>
-        <div class="wr-input">
-          <input type="text" placeholder="Поиск по сайту ...">
-        </div>
-      </div>
+    <div class="search-block">
+      
+        <form action="/search/" method='post'>
+            {% csrf_token %}
+            
+            <button type='submit'>Поиск</button>
+            <div class="wr-input">
+                <input type="text" placeholder="Поиск по сайту ..." name='q' value='{{ q }}'>
+            </div>
+        </form>
+      
+        
+    </div>

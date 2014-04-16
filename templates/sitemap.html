@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+
+   <url>
+      <loc>http://{{ site }}/</loc>
+   </url>
+
+   <url>
+      <loc>http://{{ site }}/</loc>
+   </url>
+   
+   <url>
+      <loc>http://{{ site }}/o-kompanii/</loc>
+   </url>
+   
+   <url>
+      <loc>http://{{ site }}/news/</loc>
+   </url>
+   
+   <url>
+      <loc>http://{{ site }}/catalog/</loc>
+   </url>
+   
+   <url>
+      <loc>http://{{ site }}/prajs-list/</loc>
+   </url>
+   
+   <url>
+      <loc>http://{{ site }}/dostavka/</loc>
+   </url>
+   
+   <url>
+      <loc>http://{{ site }}/kontaktyi/</loc>
+   </url>
+   
+   
+   {% for node in categories %}
+        <url>
+            <loc>http://{{ site }}/category/{{ node.slug }}/</loc>
+        </url>
+        {% for i in node.children.all %}
+            <url>
+                <loc>http://{{ site }}/category/{{ i.slug }}/</loc>
+            </url>
+        {% endfor %}
+    {% endfor %}
+   
+</urlset>
+

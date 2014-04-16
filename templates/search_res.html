@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ category.name }}{% endblock %}
+
+{% block content %}
+    {% include 'search.html' %}
+
+    {% if s_categories %}
+        <div class="highlighted">
+            <div class="holder">
+                <div class="txt-block">
+                    <ul>    
+                        {% for node in s_categories %}
+                            <li>
+                                {% if node.is_leaf_node %}
+                                    <a href="/category/{{ node.slug }}/">
+                                        {{ node.name }}
+                                    </a>
+                                {% else %}
+                                    <a href="/category/{{ node.slug }}/">{{ node.name }}</a>
+                                    <ul>
+                                    {% for i in node.children.all %}
+                                        <li  style='list-style: square; margin-left: 10px;'>
+                                            <a href="/category/{{ i.slug }}/">{{ i.name }}</a>
+                                        </li>
+                                    {% endfor %}
+                                    </ul>
+                                {% endif %}
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+    
+    
+    {% if s_items %}
+        <div class="catalog-block highlighted">
+            <ul class="catalog-list">
+                {% for i in s_items %}{% include 'item_short.html' with i=i %}{% endfor %}
+            </ul>
+        </div>
+    {% endif %}
+    
+    {% if not s_categories %}
+        {% if not s_items %}
+            <h3>Ни товаров, ни категорий по запросу "{{ q }}" не найдено.</h3>
+        {% endif %}
+    {% endif %}
+
+{% endblock %}
