@@ -1,0 +1,213 @@
+{% extends 'base.html' %}
+
+{% load thumbnail %}
+
+{% block title %}Корзина{% endblock %}
+
+
+    {% if items %}
+        <table width="100%" class="check">
+            <tr class="heds">
+                <td >Фото</td>
+                <td width='40%'>Описание</td>
+                <td>Количество</td>
+                <td>Цена</td>
+                <td >Сумма</td>
+                <td ></td>
+            </tr>
+            
+            {% for i in items %}
+                <tr>
+                    <td>
+                        <a href='/item/{{i.item.art}}/'>
+                            
+                        </a>
+                    </td>
+                    <td>
+                        <a href='/item/{{i.item.slug}}/' style='text-decoration: none'><p><strong>{{ i.item.name }}</strong></p></a>
+                        <p>Артикул: {{ i.item.art }}</p>
+                        <p>Цвет: {{ i.item.color }}</p>
+                        {% if i.size %}<p>Размер: {{ i.size }}</p>{% endif %}
+                    </td>
+                    <td style='text-align: center'>
+                        <div class="number">
+                            <div class="tnum1w"  style='margin: 0 auto; '>
+                                <div class="tnum1w1">
+                                    <form method='POST'>
+                                        <button type="submit" value="minus" name="action"  class="minus"><span>-</span></button>
+                                        <input type="text" value="{{ i.count }}" size="2" class="tnum1" name='set_count' />
+                                        <button type="submit" value="plus" name="action" class="plus" ><span>+</span></button>
+                                        <input type="hidden" name='item_id' value="{{ i.item.id }}" />
+                                        <input type="hidden" name='size' value="{{ i.size }}" />
+                                        {% csrf_token %}
+                                    </form>                
+                                </div> <!--tnum1w1-->
+                            </div> <!--tnum1w-->
+                        </div> <!--number-->
+
+                    </td>
+
+                </tr>
+            {% endfor %}
+        </table>
+        
+
+    {% else %}
+
+    {% endif %}
+
+{% block content %}
+
+
+    <!-- .shopcart -->
+    <div class="highlighted shopcart">
+        <!-- .holder -->
+        <div class="holder">
+          <!-- .breadcrumbs -->
+          <ul class="breadcrumbs">
+            <li><a href="#">Главная</a></li>
+            <li>Корзина</li>
+          </ul>
+          <!--// .breadcrumbs -->
+          
+          {% if items %}
+            
+            <!-- .order -->
+            <div class="order dbl-border">
+                <h2 class="headline">Корзина</h2>
+                <!-- .order-list-head -->
+                <div class="order-list-head">
+                <div class="art">Артикул</div>
+                <div class="name">Наименование</div>
+                <div class="count">Количество</div>
+                <div class="price">Цена</div>
+                <div class="sum">Всего</div>
+                <div class="btns"></div>
+                </div>
+                <!--// .order-list-head -->
+                <!-- .order-list -->
+                <table class="order-list">
+                
+                    {% for i in items %}
+                    
+                        <tr>
+                            <td class="art">{{ i.item.art }}</td>
+                            <td class="name">
+                            <a href="/item/{{ i.item.slug }}/">
+                                
+                                {% thumbnail i.item.image "x70" as im %}
+                                    <img src="{{ im.url }}" alt="{{ i.item.name }}" class="img">
+                                {% endthumbnail %}
+                                
+                                {{ i.item.name }}
+                            </a>
+                            </td>
+                            <td class="count">
+                            <div class="wr-input">
+                                <form method='POST'>
+                                    <button type="submit" value="minus" name="action"  class="minus"><span>-</span></button>
+                                    <input type="text" value="{{ i.count }}" size="2" class="tnum1" name='set_count' />
+                                    <button type="submit" value="plus" name="action" class="plus" ><span>+</span></button>
+                                    <input type="hidden" name='item_id' value="{{ i.item.id }}" />
+                                    {% csrf_token %}
+                                </form>                
+                            </div>
+                            </td>
+                            <td class="price">{{ i.price|floatformat:"0" }} руб.</td>
+                            <td class="sum">{{ i.sum|floatformat:"0" }} руб.</td>
+                            <td class="btns">
+                            
+                                <form method='POST'>
+                                    <button type="submit" name='action' value="del_from_basket" class="del"/>
+                                        Удалить
+                                    </button>
+                                    <input type="hidden" name='item_id' value="{{ i.item.id }}" />
+                                    {% csrf_token %}
+                                </form>
+                            </td>
+                        </tr>
+                    
+                    {% endfor %}
+                
+                
+                </table>
+                <!--// .order-list -->
+                <div class="total-sum">Итого: <span class="numb">{{ cart_sum|floatformat:"0" }} руб</span></div>
+            </div>
+            <!--// .order -->
+            
+            {% if not user.is_authenticated %}
+            
+                <!-- .auth-block -->
+                <div class="auth-block dbl-border">
+                    <!-- .reg-block -->
+                    <div class="reg-block">
+                    <div class="title">Регистрация</div>
+                    <form action="#">
+                        <!-- .col -->
+                        <div class="col">
+                        <div class="form-row">
+                            <label for="reg-block-surname">Фамилия*</label>
+                            <input type="text" id="reg-block-surname">
+                        </div>
+                        <div class="form-row">
+                            <label for="reg-block-name">Имя*</label>
+                            <input type="text" id="reg-block-name">
+                        </div>
+                        <div class="form-row">
+                            <label for="reg-block-mail">E-mail*</label>
+                            <input type="text" id="reg-block-mail">
+                        </div>
+                        </div>
+                        <!--// .col -->
+                        <!-- .col -->
+                        <div class="col">
+                        <div class="form-row">
+                            <label for="reg-block-pass">Пароль*</label>
+                            <input type="password" id="reg-block-pass">
+                        </div>
+                        <div class="form-row">
+                            <label for="reg-block-pass-confirm">Подтвердите пароль*</label>
+                            <input type="password" id="reg-block-pass-confirm">
+                        </div>
+                        <div class="forgot"><a href="#">Забыли пароль?</a></div>
+                        <div class="form-row">
+                            <button class="btn btn-orange">Войти</button>
+                        </div>
+                        </div>
+                        <!--// .col -->
+                    </form>
+                    </div>
+                    <!--// .reg-block -->
+                    <!-- .login-block -->
+                    <div class="login-block">
+                    <div class="title">Войти и заказать</div>
+                    <form action="#">
+                        <div class="form-row">
+                        <label for="login-block-login">Логин:</label>
+                        <input type="text" id="login-block-login">
+                        </div>
+                        <div class="form-row">
+                        <label for="login-block-pass">Пароль:</label>
+                        <input type="password" id="login-block-pass">
+                        </div>
+                        <div class="forgot"><a href="#">Забыли пароль?</a></div>
+                        <div class="form-row">
+                        <button class="btn btn-orange">Войти</button>
+                        </div>
+                    </form>
+                    </div>
+                    <!--// .login-block -->
+                </div>
+                <!--// .auth-block -->
+                <div class="shopcart-required-note">Поля отмеченные *, обязательны для заполнения</div>
+                {% endif %}
+            {% else %}
+                <h2 class="headline">Ваша корзина пуста.</h2>
+            {% endif %}
+        </div>
+        <!--// .holder -->
+    </div>
+    <!--// .shopcart -->
+    
+{% endblock %}

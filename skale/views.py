@@ -99,12 +99,7 @@ def item(request, slug):
     c = get_common_context(request)
     if request.method == 'POST':
         if request.POST['action'] == 'add_in_basket':
-            sizes = request.POST.getlist('size')
-            if sizes:
-                for s in sizes:
-                    c['cart_working'].add_to_cart(request.user, request.POST['item_id'], s)
-            else:
-                c['cart_working'].add_to_cart(request.user, request.POST['item_id'], 0)
+            c['cart_working'].add_to_cart(request.user, request.POST['item_id'])
         return HttpResponseRedirect(request.get_full_path())
     c['item'] = Item.get_by_slug(slug)
     c['category'] = c['item'].category
@@ -116,16 +111,16 @@ def cart(request):
     c = get_common_context(request)
     if request.method == 'POST':
         if request.POST['action'] == 'del_from_basket':
-            c['cart_working'].del_from_cart(request.user, request.POST['item_id'], request.POST['size'])
+            c['cart_working'].del_from_cart(request.user, request.POST['item_id'])
             return HttpResponseRedirect(request.get_full_path())
-        elif ('set_count' in request.POST) and (int(request.POST['set_count']) != c['cart_working'].get_count(request.user, request.POST['item_id'], request.POST['size'])):
-            c['cart_working'].set_count(request.user, request.POST['item_id'], request.POST['size'], request.POST['set_count'])
+        elif ('set_count' in request.POST) and (int(request.POST['set_count']) != c['cart_working'].get_count(request.user, request.POST['item_id'])):
+            c['cart_working'].set_count(request.user, request.POST['item_id'], request.POST['set_count'])
             return HttpResponseRedirect(request.get_full_path())
         elif request.POST['action'] == 'plus':
-            c['cart_working'].count_plus(request.user, request.POST['item_id'], request.POST['size'])
+            c['cart_working'].count_plus(request.user, request.POST['item_id'])
             return HttpResponseRedirect(request.get_full_path())
         elif request.POST['action'] == 'minus':
-            c['cart_working'].count_minus(request.user, request.POST['item_id'], request.POST['size'])
+            c['cart_working'].count_minus(request.user, request.POST['item_id'])
             return HttpResponseRedirect(request.get_full_path())
         elif request.POST['action'] == 'to_order':
             comment = request.POST['comment']

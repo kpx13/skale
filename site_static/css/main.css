@@ -825,6 +825,17 @@ button.btn-orange {
   position: relative;
   width: 49px;
 }
+
+.order .count .plus, .order .count .minus, .order .del, .reset-btn {
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+  font: inherit;
+  color: inherit;
+}
+
+
 .order .count .plus {
   cursor: pointer;
   font-size: 15px;

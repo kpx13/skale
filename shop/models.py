@@ -91,11 +91,7 @@ class Cart(models.Model):
     
     @staticmethod
     def get_price(cap, item):
-        opt = cap.is_authenticated() and cap.get_profile().is_opt
-        if opt: 
-            return item.price_opt
-        else:
-            return item.price
+        return item.price
     
     @staticmethod
     def get_content(user):
@@ -103,7 +99,6 @@ class Cart(models.Model):
         res = []
         for c in cart:
             res.append({'item': c.item,
-                        'size': c.size,
                         'count': c.count,
                         'price': Cart.get_price(user, c.item),
                         'sum': Cart.get_price(user, c.item) * c.count})
@@ -115,7 +110,6 @@ class Cart(models.Model):
         res = []
         for c in cart:
             res.append({'item': c.item,
-                        'size': c.size,
                         'count': c.count,
                         'sum': Cart.get_price(user, c.item) * c.count})
         return res
@@ -173,8 +167,7 @@ Cпособ доставки: {{ o.get_delivery_display }}
 Содержимое:
     {% for c in o.content.all %}
         Ссылка на товар: {{ site }}item/{{ c.item.slug }}/
-        {{ c.item.name }} {% if c.size %}
-        Размер: {{ c.size }}{% endif %}
+        {{ c.item.name }}
         Кол-во: {{ c.count }}
         Цена: {{ c.price }} руб.
     {% endfor %}
@@ -192,8 +185,7 @@ Cпособ доставки: {{ o.get_delivery_display }}
 Содержимое:
     {% for c in o.content.all %}
         Ссылка на товар: {{ site }}item/{{ c.item.slug }}/
-        {{ c.item.name }} {% if c.size %}
-        Размер: {{ c.size }}{% endif %} 
+        {{ c.item.name }}
         Кол-во: {{ c.count }}
         Цена: {{ c.price }} руб.
     {% endfor %}
@@ -247,10 +239,5 @@ class OrderContent(models.Model):
     
     @property
     def price(self):
-        user = self.order.user
-        opt = user.is_authenticated() and user.get_profile().is_opt
-        if opt: 
-            return self.item.price_opt
-        else:
-            return self.item.price
+        return self.item.price
     

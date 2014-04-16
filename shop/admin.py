@@ -7,7 +7,7 @@ class CartAdmin(admin.ModelAdmin):
     search_fields = ('item', )
 
 class ContentInline(admin.TabularInline): 
-    list_display = ('item', 'size', 'count')
+    list_display = ('item', 'count')
     model = OrderContent
     extra = 2
 

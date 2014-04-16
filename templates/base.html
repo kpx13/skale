@@ -17,12 +17,12 @@
     <header>
       <!-- .h-cart -->
       <div class="h-cart">
-        <div class="title"><a href="#">Корзина</a></div>
+        <div class="title"><a href="/cart/">Корзина</a></div>
         <ul>
-          <li><span class="label">Кол-во:</span> 0 штук</li>
-          <li><span class="label">Сумма:</span> 0 руб.</li>
+          <li><span class="label">Кол-во:</span> {{ cart_count }} шт.</li>
+          <li><span class="label">Сумма:</span> {{ cart_sum|floatformat:"0" }} руб.</li>
         </ul>
-        <a href="#" class="ico"></a>
+        <a href="/cart/" class="ico"></a>
       </div>
       <!--// .h-cart -->
       <div class="logo"><a href="#">Природа в школе</a></div>
@@ -33,14 +33,15 @@
           <div class="title">Прием заказов по телефону осуществляется</div>
           с понедельника по пятницу с 10.00 до 18.00
         </div>
-        <div class="request">
+        
             {% if user.is_authenticated %}
-                <a href="/lk/">Личный кабинет</a>
+                <div class="request"><a href="/lk/">Личный кабинет</a></div>
+                <div class="send-mail"><a href="/accounts/logout/">Выход</a></div>
             {% else %}
-                <a href="/register/">Вход / Регистрация</a>
+                <div class="request"><a href="/register/">Вход</a></div>
+                <div class="send-mail"><a href="/register/">Регистрация</a></div>
             {% endif %}
-        </div>
-        <div class="send-mail"><a href="#">Отправить письмо</a></div>
+        
       </div>
       <!--// .h-contacts -->
       <!-- .h-info -->
