@@ -48,6 +48,9 @@ def reset_catalog(request):
         if i.startswith('catalog_'):
             del request.session[i]
 
+def catalog(request):
+    c = get_common_context(request)
+    return render_to_response('catalog_map.html', c, context_instance=RequestContext(request))
 
 def home_page(request):
     c = get_common_context(request)
@@ -104,7 +107,7 @@ def item(request, slug):
         return HttpResponseRedirect(request.get_full_path())
     c['item'] = Item.get_by_slug(slug)
     c['category'] = c['item'].category
-    c['same'] = Item.objects.filter(category__in=c['category'].get_descendants(include_self=True))[0:4]
+    c['same'] = Item.objects.filter(category__in=c['category'].get_descendants(include_self=True)).order_by('?')[0:4]
     c['in_cart'] = c['cart_working'].present_item(request.user, c['item'].id)
     return render_to_response('item.html', c, context_instance=RequestContext(request))
 

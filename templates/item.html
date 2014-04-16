@@ -79,42 +79,10 @@
       <!--// .goods -->
       <!-- .related -->
       <div class="related highlighted catalog-block">
-        <h2 class="headline">Сопутствующие товары</h2>
+        <h2 class="headline">Товары из этой же категории:</h2>
         <!-- .catalog-list -->
         <ul class="catalog-list">
-          <li>
-            <div class="title"><a href="#">Многофактор.опросник Р.Кеттелла</a></div>
-            <div class="img">
-              <a href="#"><img src="/static/i/catalog-pic1.jpg" alt="Многофактор.опросник Р.Кеттелла" width="98" height="113"></a>
-            </div>
-            <div class="price">3 602 руб.</div>
-            <div class="old-price">4200 руб.</div>
-            <div class="btn btn-blue btn-bb"><a href="#">Купить</a></div>
-          </li><li>
-            <div class="title"><a href="#">Многофактор.опросник Р.Кеттелла</a></div>
-            <div class="img">
-              <a href="#"><img src="/static/i/catalog-pic2.jpg" alt="Многофактор.опросник Р.Кеттелла" width="180" height="120"></a>
-            </div>
-            <div class="price">3 602 руб.</div>
-            <div class="old-price">4200 руб.</div>
-            <div class="btn btn-blue btn-bb"><a href="#">Купить</a></div>
-          </li><li>
-            <div class="title"><a href="#">Многофактор.опросник Р.Кеттелла</a></div>
-            <div class="img">
-              <a href="#"><img src="/static/i/catalog-pic3.jpg" alt="Многофактор.опросник Р.Кеттелла" width="164" height="116"></a>
-            </div>
-            <div class="price">3 602 руб.</div>
-            <div class="old-price">4200 руб.</div>
-            <div class="btn btn-blue btn-bb"><a href="#">Купить</a></div>
-          </li><li>
-            <div class="title"><a href="#">Многофактор.опросник Р.Кеттелла</a></div>
-            <div class="img">
-              <a href="#"><img src="/static/i/catalog-pic1.jpg" alt="Многофактор.опросник Р.Кеттелла" width="98" height="113"></a>
-            </div>
-            <div class="price">3 602 руб.</div>
-            <div class="old-price">4200 руб.</div>
-            <div class="btn btn-blue btn-bb"><a href="#">Купить</a></div>
-          </li>
+            {% for i in same %}{% include 'item_short.html' with i=i %}{% endfor %}
         </ul>
         <!--// .catalog-list -->
       </div>
