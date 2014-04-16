@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+
+{% block title %}Личный кабинет{% endblock %}
+
+{% block content %}
+    <!-- .checkout -->
+      <div class="highlighted checkout">
+        <!-- .holder -->
+        <div class="holder">
+          <!-- .breadcrumbs -->
+          <ul class="breadcrumbs">
+            <li><a href="/">Главная</a></li>
+            <li>Личный кабинет</li>
+          </ul>
+          <!--// .breadcrumbs -->
+          <h2 class="headline">Данные для оформления заказа</h2>
+          <!-- .checkout-in -->
+          <div class="checkout-in">
+            
+            <!--// .col -->
+            <!-- .col -->
+            <form method='POST' class="col left">
+              <div class="form-row">
+                {% if form.fio.errors %}
+                    <div class="form-error">{{ form.fio.errors.0 }}</div>
+                {% endif %}
+                {{ form.fio }}
+              </div>
+              <div class="form-row">
+                {% if form.passport.errors %}
+                    <div class="form-error">{{ form.passport.errors.0 }}</div>
+                {% endif %}
+                {{ form.passport }}
+              </div>
+              <div class="form-row">
+                {% if form.address.errors %}
+                    <div class="form-error">{{ form.address.errors.0 }}</div>
+                {% endif %}
+                {{ form.address }}
+              </div>
+              <div class="form-row">
+                {% if form.contacts.errors %}
+                    <div class="form-error">{{ form.contacts.errors.0 }}</div>
+                {% endif %}
+                {{ form.contacts }}
+              </div>
+              <button type='submin' class="btn btn-orange">Сохранить</button><a href='/accounts/password/change/'>Сменить пароль</a>
+              {% csrf_token %}
+            </form>
+            
+            <!--// .col -->
+          </div>
+          <!--// .checkout-in -->
+        </div>
+        <!--// .holder -->
+      </div>
+      <!--// .checkout -->
+      
+      <div class="checkout-required-note">* Поле, обязательное для заполнения</div>
+
+
+    
+{% endblock %}

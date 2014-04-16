@@ -33,7 +33,13 @@
           <div class="title">Прием заказов по телефону осуществляется</div>
           с понедельника по пятницу с 10.00 до 18.00
         </div>
-        <div class="request"><a href="#">Вход / Регистрация</a></div>
+        <div class="request">
+            {% if user.is_authenticated %}
+                <a href="/lk/">Личный кабинет</a>
+            {% else %}
+                <a href="/register/">Вход / Регистрация</a>
+            {% endif %}
+        </div>
         <div class="send-mail"><a href="#">Отправить письмо</a></div>
       </div>
       <!--// .h-contacts -->
@@ -55,21 +61,26 @@
       {% include 'main_menu.html' %}
     </nav>
     <!--// .menu -->
-    <!-- .content -->
-    <div class="content">
-        {% block content %}
-        {% endblock %}
-    </div>
-    <!--// .content -->
-    <!-- .sidebar -->
-    <div class="sidebar">
-      <!-- .side-nav -->
-      {% include 'left_menu.html' %}
-      <!--// .side-nav -->
-      <!-- .side-news -->
-      {% include 'left_news.html' %}
-      <!--// .side-news -->
-    </div>
+    
+    {% block all_wrapper %}
+    
+        <!-- .content -->
+        <div class="content">
+            {% block content %}
+            {% endblock %}
+        </div>
+        <!--// .content -->
+        <!-- .sidebar -->
+        <div class="sidebar">
+        <!-- .side-nav -->
+        {% include 'left_menu.html' %}
+        <!--// .side-nav -->
+        <!-- .side-news -->
+        {% include 'left_news.html' %}
+        <!--// .side-news -->
+        </div>
+        
+    {% endblock %}
     <!--// .sidebar -->
     <div class="empty"></div>
   </div>

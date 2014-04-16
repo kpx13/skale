@@ -1,0 +1,134 @@
+{% extends 'base.html' %}
+
+{% block title %}Регистрация{% endblock %}
+
+                        <form method='POST' >
+                            <label>ФИO*</label>
+                            {{ register_form.fio }}
+                            {% if register_form.fio.errors %}
+                                <div class="fail">{{ register_form.fio.errors.0 }}</div>
+                            {% endif %}
+                            <label>E-mail*</label>
+                            {{ register_form.email }}
+                            {% if register_form.email.errors %}
+                                <div class="fail">{{ register_form.email.errors.0 }}</div>
+                            {% endif %}
+
+                            <label>Пароль*</label>
+                            {{ register_form.password_1 }}
+                            {% if register_form.password_1.errors %}
+                                <div class="fail">{{ register_form.password_1.errors.0 }}</div>
+                            {% endif %}
+                            <label>Повторите пароль*</label>
+                            {{ register_form.password_2 }}
+                            {% if register_form.password_2.errors %}
+                                <div class="fail">{{ register_form.password_2.errors.0 }}</div>
+                            {% endif %}
+                            <div class="clear"></div>
+
+                            <input type="submit" class="send cl" value="Отправить">
+                            <span>*Обязательные для заполнения поля</span>
+                            <input type='hidden' name='action' value='register' />
+                            {% csrf_token %}
+                        </form>
+
+{% block content %}
+ <!-- .shopcart -->
+      <div class="highlighted shopcart">
+        <!-- .holder -->
+        <div class="holder">
+          <!-- .breadcrumbs -->
+          <ul class="breadcrumbs">
+            <li><a href="/">Главная</a></li>
+            <li>Вход / Регистрация</li>
+          </ul>
+          <!--// .breadcrumbs -->
+        
+          <!-- .auth-block -->
+          <div class="auth-block dbl-border">
+            <!-- .reg-block -->
+            <div class="reg-block">
+                <div class="title">Регистрация</div>
+                <form method='POST'>
+                    <!-- .col -->
+                    <div class="col">
+                    <div class="form-row">
+                        <label for="reg-block-surname">ФИО или название компании*</label>
+                        {% if register_form.fio.errors %}
+                            <div class="form-error">{{ register_form.fio.errors.0 }}</div>
+                        {% endif %}
+                        {{ register_form.fio }}
+                    </div>
+                    <div class="form-row">
+                        <label for="reg-block-mail">E-mail*</label>
+                        {% if register_form.email.errors %}
+                            <div class="form-error">{{ register_form.email.errors.0 }}</div>
+                        {% endif %}
+                        {{ register_form.email }}
+                    </div>
+                    <div class="form-row">
+                        <label for="reg-block-name">Юридическое лицо?</label>
+                        {{ register_form.is_legal }}
+                    </div>
+                    </div>
+                    <!--// .col -->
+                    <!-- .col -->
+                    <div class="col">
+                    <div class="form-row">
+                        <label for="reg-block-pass">Пароль*</label>
+                        {% if register_form.password_1.errors %}
+                            <div class="form-error">{{ register_form.password_1.errors.0 }}</div>
+                        {% endif %}
+                        {{ register_form.password_1 }}
+                    </div>
+                    <div class="form-row">
+                        <label for="reg-block-pass-confirm">Подтвердите пароль*</label>
+                        {% if register_form.password_2.errors %}
+                            <div class="form-error">{{ register_form.password_2.errors.0 }}</div>
+                        {% endif %}
+                        {{ register_form.password_2 }}
+                    </div>
+                    <div class="forgot"><a href="/accounts/password/reset/">Забыли пароль?</a></div>
+                    <div class="form-row">
+                        <button type='submit' class="btn btn-orange">Регистрация</button>
+                    </div>
+                    </div>
+                    <!--// .col -->
+                    <input type='hidden' name='action' value='register' />
+                            {% csrf_token %}
+                </form>
+            </div>
+            <!--// .reg-block -->
+            <!-- .login-block -->
+            <div class="login-block">
+                <div class="title">Вход</div>
+                <form method='POST'>
+                    {% if auth_error %}
+                        <div class="form-error">{{ auth_error }}<br /></div>
+                    {% endif %}
+                    <div class="form-row">
+                        <label for="login-block-login">Логин:</label>
+                        {{ auth_form.username }}
+                    </div>
+                    <div class="form-row">
+                        <label for="login-block-pass">Пароль:</label>
+                        {{ auth_form.password }} 
+                    </div>
+                    <div class="forgot"><a href="/accounts/password/reset/">Забыли пароль?</a></div>
+                    <div class="form-row">
+                    <button type='submit' class="btn btn-orange">Вход</button>
+                    </div>
+                    <input type='hidden' name='action' value='auth' />
+                    {% csrf_token %}
+                </form>
+            </div>
+            <!--// .login-block -->
+          </div>
+          <!--// .auth-block -->
+          <div class="shopcart-required-note">Поля, отмеченные *, обязательны для заполнения</div>
+        </div>
+        <!--// .holder -->
+      </div>
+      <!--// .shopcart -->
+
+{% endblock %}

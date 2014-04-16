@@ -17,7 +17,7 @@ from news.models import NewsItem
 from catalog.models import Category, Item
 from shop.models import Cart, Order
 from sessionworking import SessionCartWorking
-from users.forms import RegisterForm, RegisterOptForm, ProfileForm
+from users.forms import RegisterForm, ProfileForm, UserOrderDataFiz, OrderDataFizForm, OrderDataUrForm
 from feedback.forms import FeedbackForm
 from slideshow.models import Slider
 
@@ -246,54 +246,34 @@ def contacts(request):
         c['form'] = form
     return render_to_response('contacts.html', c, context_instance=RequestContext(request))
 
-def opt(request):
-    reset_catalog(request)
-    c = get_common_context(request)
-    if request.method == 'GET':
-        c['form'] = RegisterOptForm()
-    else:
-        register_form = RegisterOptForm(request.POST)
-        if register_form.is_valid():
-            p1 = register_form.data.get('password_1')
-            p2 = register_form.data.get('password_2')
-            error = False
-            if p1 != p2:
-                register_form._errors["password_2"] = ErrorList([u'Пароли не совпадают.'])
-                error = True
-            if len(User.objects.filter(username=register_form.data.get('email'))):
-                register_form._errors["email"] = ErrorList([u'Такой емейл уже зарегистрирован.'])
-                error = True
-            if not error:
-                u = User(username=register_form.data.get('email'), email=register_form.data.get('email'))
-                u.set_password(register_form.data.get('password_1'))
-                u.save()
-                p = u.get_profile()
-                register_form = RegisterOptForm(request.POST, instance=p)
-                register_form.save()
-                p.send()
-                user = auth.authenticate(username=register_form.data.get('email'), password=register_form.data.get('password_1'))
-                auth.login(request, user)
-                
-                c['form'] = RegisterOptForm()
-                c['msg_sent'] = u'Ваш отзыв отправлен. Спасибо.'
-                return render_to_response('opt.html', c, context_instance=RequestContext(request))
-            
-        c['form'] = register_form
-    return render_to_response('opt.html', c, context_instance=RequestContext(request))
-
 def lk(request):
     c = get_common_context(request)
     if not request.user.is_authenticated():
         return HttpResponseRedirect('/')
-    if request.method == 'GET':
-        c['form'] = ProfileForm(instance=request.user.get_profile())
+    profile = request.user.get_profile()
+    is_legal=profile.is_legal
+    if is_legal:
+        module = OrderDataUrForm
     else:
-        form = ProfileForm(request.POST, instance=request.user.get_profile())
-        if form.is_valid():
-            form.save()
-            return HttpResponseRedirect('/lk/')
+        module = OrderDataFizForm
+    form = module(instance=profile.get_orderdata(), initial={'fio': profile.fio})
+    if request.method == 'GET':
         c['form'] = form
-    return render_to_response('lk.html', c, context_instance=RequestContext(request))
+    if request.method == 'POST':
+        form = module(request.POST, instance=profile.get_orderdata())            
+        if form.is_valid():
+            f = form.save(commit=False)
+            f.user = request.user
+            f.save()
+            profile.fio = form['fio'].value()
+            profile.save()
+            return HttpResponseRedirect('/lk/')
+    c['form'] = form
+    if is_legal:
+        return render_to_response('lk_ur.html', c, context_instance=RequestContext(request))
+    else:
+        return render_to_response('lk_fiz.html', c, context_instance=RequestContext(request))
+    
 
 def other_page(request, page_name):
     reset_catalog(request)
@@ -352,14 +332,11 @@ def register(request):
                     u.save()
                     p = u.get_profile()
                     p.fio = register_form.data.get('fio')
+                    p.is_legal = bool(register_form.data.get('is_legal'))
                     p.save()
                     user = auth.authenticate(username=register_form.data.get('email'), password=register_form.data.get('password_1'))
                     auth.login(request, user)
-                    if 'is_order' in request.session:
-                        del request.session['is_order']
-                        return HttpResponseRedirect('/order/2/')
-                    else:
-                        return HttpResponseRedirect('/')
+                    return HttpResponseRedirect('/')
             c['register_form'] = register_form
                 
     return render_to_response('register.html', c, context_instance=RequestContext(request))

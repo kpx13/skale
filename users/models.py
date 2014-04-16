@@ -19,44 +19,62 @@ def sendmail(subject, body, to_email=config_value('MyApp', 'EMAIL')):
 
 class UserProfile(models.Model):
     user = models.OneToOneField(User, related_name='profile', verbose_name=u'пользователь')
-    fio = models.CharField(max_length=256, verbose_name=u'ФИО')
-    phone = models.CharField(max_length=128, blank=True, verbose_name=u'телефон')
-    index = models.CharField(max_length=25, blank=True,verbose_name=u'индекс')
-    city = models.CharField(max_length=100, blank=True,verbose_name=u'город')
-    street = models.CharField(max_length=256, blank=True,verbose_name=u'улица')
-    house = models.CharField(max_length=25, blank=True,verbose_name=u'дом, квартира')
-    
-    is_opt = models.BooleanField(blank=True, verbose_name=u'это оптовик')
-    organization = models.CharField(max_length=20,blank=True, verbose_name=u'организация')
-    address = models.CharField(max_length=20, blank=True, verbose_name=u'адрес ТЦ')
-    
+    fio = models.CharField(max_length=256, verbose_name=u'ФИО или название компании')
+    is_legal = models.BooleanField(blank=True, verbose_name=u'это юр. лицо')
 
     class Meta:
-        verbose_name = 'профиль пользователя'
-        verbose_name_plural = 'профили пользователей'
+        verbose_name = u'профиль пользователя'
+        verbose_name_plural = u'профили пользователей'
         app_label = string_with_title("users", u"Пользователи")
+        
+    def get_orderdata(self):
+        if self.is_legal:
+            module = UserOrderDataUr 
+        else:
+            module = UserOrderDataFiz
+        r = module.objects.filter(user=self.user)
+        if r:
+            return r[0]
+        else:
+            return None
     
     def __unicode__ (self):
         return str(self.user.username)
-    
-    
-    def send(self):
-        
-        subject=u'Поступила новая заявка от оптовика',
-        body_templ=u"""
-    Контактное лицо: {{ up.fio }}
-    Организация: {{ up.organization }}
-    Адрес: {{ up.address }}
-    
-    Если Вы хотите подтвердить профиль оптовика, это можно сделать здесь: {{ site }}admin/auth/user/{{ up.user.id }}/
-    
-    """
-        body = Template(body_templ).render(Context({'up': self, 'site': 'http://galant.webgenesis.ru/'}))
-        sendmail(subject, body)    
-    
         
 def create_user_profile(sender, instance, created, **kwargs):
     if created:
         UserProfile.objects.create(user=instance)
 
 post_save.connect(create_user_profile, sender=User)
+
+
+class UserOrderDataFiz(models.Model):
+    user = models.ForeignKey(User, related_name='orderdatafiz', verbose_name=u'пользователь')
+    passport = models.CharField(max_length=512, blank=True, verbose_name=u'паспортные данные')
+    address = models.CharField(max_length=255, blank=True,verbose_name=u'адрес доставки')
+    contacts = models.CharField(max_length=255, blank=True,verbose_name=u'контакты')    
+
+    class Meta:
+        verbose_name = u'данные для заказа физ лица'
+        verbose_name_plural = u'данные для заказов физ лиц'
+        app_label = string_with_title("users", u"Пользователи")
+    
+    def __unicode__ (self):
+        return str(self.user.username)
+    
+    
+class UserOrderDataUr(models.Model):
+    user = models.ForeignKey(User, related_name='orderdataur', verbose_name=u'пользователь')
+    inn = models.CharField(max_length=63, blank=True, verbose_name=u'ИНН')
+    kpp = models.CharField(max_length=63, blank=True,verbose_name=u'КПП')
+    ur_address = models.CharField(max_length=255, blank=True,verbose_name=u'юридический адрес')
+    address = models.CharField(max_length=255, blank=True,verbose_name=u'адрес доставки')
+    contacts = models.CharField(max_length=255, blank=True,verbose_name=u'контакты')    
+
+    class Meta:
+        verbose_name = u'данные для заказа юр лица'
+        verbose_name_plural = u'данные для заказов юр лиц'
+        app_label = string_with_title("users", u"Пользователи")
+    
+    def __unicode__ (self):
+        return str(self.user.username)

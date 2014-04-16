@@ -2,128 +2,25 @@
 
     {% load mptt_tags %}
     <ul>    
-    
-    {% for node in categories %}
-        <li {% if not node.is_leaf_node %}{% if node in category.breadcrumb or node == category %} class="active" {% endif %}{% endif %}>
-            {% if node.is_leaf_node %}
-                <a href="/category/{{ node.slug }}/">
-                    {{ node.name }}
-                </a>
-            {% else %}
-                <span>{{ node.name }}</span>
-                    <ul>
-                    {% for i in node.children.all %}
-                        <li>
-                            <a href="/category/{{ i.slug }}/">{{ i.name }}</a>
-                        </li>
-                    {% endfor %}
-                    </ul>
-            {% endif %}
-        </li>
-    {% endfor %}
+        <li><a href="/vasha-novostrojka/">Ваша новостройка</a></li>
+        {% for node in categories %}
+            <li {% if not node.is_leaf_node %}{% if node in category.breadcrumb or node == category %} class="active" {% endif %}{% endif %}>
+                {% if node.is_leaf_node %}
+                    <a href="/category/{{ node.slug }}/">
+                        {{ node.name }}
+                    </a>
+                {% else %}
+                    <span>{{ node.name }}</span>
+                        <ul>
+                        {% for i in node.children.all %}
+                            <li>
+                                <a href="/category/{{ i.slug }}/">{{ i.name }}</a>
+                            </li>
+                        {% endfor %}
+                        </ul>
+                {% endif %}
+            </li>
+        {% endfor %}
     </ul>
 
-<!--
-    <ul>
-        <li>
-            <a href="#">Ваша Новостройка</a>
-        </li>
-        <li>
-            <span>Учебные пособия</span>
-            <ul>
-                <li><a href="#">Стенды для школьных кабинетов</a></li>
-                <li><a href="#">Мультимедийные диски КиМ</a></li>
-                <li><a href="#">Кабинет Химии</a></li>
-                <li><a href="#">Кабинет Физики</a></li>
-                <li><a href="#">Кабинет Биологии</a></li>
-                <li><a href="#">Кабинет Русского языка</a></li>
-                <li><a href="#">Кабинет Труда</a></li>
-                <li><a href="#">Кабинет труда слесарный</a></li>
-                <li><a href="#">Кабинет труда столярный</a></li>
-                <li><a href="#">Кабинет Черчения и ИЗО</a></li>
-                <li><a href="#">Компакт-диски для</a></li>
-                <li><a href="#">учителяКомпьютерный класс</a></li>
-                <li><a href="#">Мебель школьная</a></li>
-                <li><a href="#">Медицинское оборудование-</a></li>
-                <li><a href="#">Уточнять цены</a></li>
-            </ul>
-        </li>
-        <li>
-            <span>Школьная мебель</span>
-            <ul>
-                <li><a href="#">Стенды для школьных кабинетов</a></li>
-                <li><a href="#">Мультимедийные диски КиМ</a></li>
-                <li><a href="#">Кабинет Химии</a></li>
-                <li><a href="#">Кабинет Физики</a></li>
-                <li><a href="#">Кабинет Биологии</a></li>
-                <li><a href="#">Кабинет Русского языка</a></li>
-                <li><a href="#">Кабинет Труда</a></li>
-                <li><a href="#">Кабинет труда слесарный</a></li>
-                <li><a href="#">Кабинет труда столярный</a></li>
-                <li><a href="#">Кабинет Черчения и ИЗО</a></li>
-                <li><a href="#">Компакт-диски для</a></li>
-                <li><a href="#">учителяКомпьютерный класс</a></li>
-                <li><a href="#">Мебель школьная</a></li>
-                <li><a href="#">Медицинское оборудование-</a></li>
-                <li><a href="#">Уточнять цены</a></li>
-            </ul>
-        </li>
-        <li class="two-strings"><span>Интерактивные средства обучения</span>
-        <ul>
-            <li><a href="#">Стенды для школьных кабинетов</a></li>
-            <li><a href="#">Мультимедийные диски КиМ</a></li>
-            <li><a href="#">Кабинет Химии</a></li>
-            <li><a href="#">Кабинет Физики</a></li>
-            <li><a href="#">Кабинет Биологии</a></li>
-            <li><a href="#">Кабинет Русского языка</a></li>
-            <li><a href="#">Кабинет Труда</a></li>
-            <li><a href="#">Кабинет труда слесарный</a></li>
-            <li><a href="#">Кабинет труда столярный</a></li>
-            <li><a href="#">Кабинет Черчения и ИЗО</a></li>
-            <li><a href="#">Компакт-диски для</a></li>
-            <li><a href="#">учителяКомпьютерный класс</a></li>
-            <li><a href="#">Мебель школьная</a></li>
-            <li><a href="#">Медицинское оборудование-</a></li>
-            <li><a href="#">Уточнять цены</a></li>
-        </ul>
-        </li>
-        <li class="two-strings"><span>Специализированное оборудование</span>
-        <ul>
-            <li><a href="#">Стенды для школьных кабинетов</a></li>
-            <li><a href="#">Мультимедийные диски КиМ</a></li>
-            <li><a href="#">Кабинет Химии</a></li>
-            <li><a href="#">Кабинет Физики</a></li>
-            <li><a href="#">Кабинет Биологии</a></li>
-            <li><a href="#">Кабинет Русского языка</a></li>
-            <li><a href="#">Кабинет Труда</a></li>
-            <li><a href="#">Кабинет труда слесарный</a></li>
-            <li><a href="#">Кабинет труда столярный</a></li>
-            <li><a href="#">Кабинет Черчения и ИЗО</a></li>
-            <li><a href="#">Компакт-диски для</a></li>
-            <li><a href="#">учителяКомпьютерный класс</a></li>
-            <li><a href="#">Мебель школьная</a></li>
-            <li><a href="#">Медицинское оборудование-</a></li>
-            <li><a href="#">Уточнять цены</a></li>
-        </ul>
-        </li>
-        <li class="active"><span>Детский сад</span>
-        <ul>
-            <li><a href="#">Стенды для школьных кабинетов</a></li>
-            <li><a href="#">Мультимедийные диски КиМ</a></li>
-            <li><a href="#">Кабинет Химии</a></li>
-            <li><a href="#">Кабинет Физики</a></li>
-            <li><a href="#">Кабинет Биологии</a></li>
-            <li><a href="#">Кабинет Русского языка</a></li>
-            <li><a href="#">Кабинет Труда</a></li>
-            <li><a href="#">Кабинет труда слесарный</a></li>
-            <li><a href="#">Кабинет труда столярный</a></li>
-            <li><a href="#">Кабинет Черчения и ИЗО</a></li>
-            <li><a href="#">Компакт-диски для</a></li>
-            <li><a href="#">учителяКомпьютерный класс</a></li>
-            <li><a href="#">Мебель школьная</a></li>
-            <li><a href="#">Медицинское оборудование-</a></li>
-            <li><a href="#">Уточнять цены</a></li>
-        </ul>
-        </li>
-    </ul>-->
 </nav>
