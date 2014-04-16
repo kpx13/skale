@@ -1,0 +1,51 @@
+body
+{
+    background: url(../i/bottom-x.png) 0 100% repeat-x;
+    height: auto !important;
+}
+
+#header {
+    background: white;
+    color: #111;
+    background: #d3e1e4 url(/static/i/header-bg.png);
+    
+}
+
+#user-tools{
+/*     display: none; */
+}
+
+.dashboard-title{
+    display: none;
+}
+
+#header #branding h1 {
+    margin: 0;
+    padding: 5px 0px;
+    text-indent: -9999px;
+    background: transparent;
+    height: 35px;
+}
+
+#header a
+{
+    color: #111 !important;
+    text-decoration: underline;
+}
+
+#header #branding a
+{
+    color: #000 !important;
+    font-size: large !important;
+}
+
+.grp-horizontal-list
+{
+}
+
+.grp-horizontal-list ul li
+{
+    list-style: none;
+    
+    
+}
