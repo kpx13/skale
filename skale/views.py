@@ -16,6 +16,7 @@ from pages.models import Page
 from news.models import NewsItem
 from catalog.models import Category, Item
 from shop.models import Cart, Order
+from shop.forms import OrderForm
 from sessionworking import SessionCartWorking
 from users.forms import RegisterForm, ProfileForm, UserOrderDataFiz, OrderDataFizForm, OrderDataUrForm
 from feedback.forms import FeedbackForm
@@ -99,7 +100,7 @@ def item(request, slug):
     c = get_common_context(request)
     if request.method == 'POST':
         if request.POST['action'] == 'add_in_basket':
-            c['cart_working'].add_to_cart(request.user, request.POST['item_id'])
+            c['cart_working'].add_to_cart(request.user, request.POST['item_id'], int(request.POST['count']))
         return HttpResponseRedirect(request.get_full_path())
     c['item'] = Item.get_by_slug(slug)
     c['category'] = c['item'].category
@@ -158,72 +159,41 @@ def cart(request):
     
     return render_to_response('cart.html', c, context_instance=RequestContext(request))
 
-def order(request, step='1'):
+def order(request):
     c = get_common_context(request)
-    if step == '1':
-        if request.user.is_authenticated():
-            return HttpResponseRedirect('/order/2/')
-        else:
-            if request.method == "GET":
-                auth_form = AuthenticationForm()
-                register_form = RegisterForm()
-                c['auth_form'] = auth_form
-                c['register_form'] = register_form
-                return render_to_response('order_1.html', c, context_instance=RequestContext(request))
-            else:
-                request.session['is_order'] = True
-                return register(request)
-    else:
-        if not request.user.is_authenticated():
-            return HttpResponseRedirect('/order/1/')
-    if step == '2':
-        c['items'] = c['cart_working'].get_content(request.user)
-        return render_to_response('order_2.html', c, context_instance=RequestContext(request))
-    elif step == '3':
-        from shop.forms import Step3Form
-        if request.method == 'GET':
-            user_profile = request.user.get_profile()
-            form = Step3Form(initial={
-                                        'fio': user_profile.fio,
-                                        'phone': user_profile.phone,
-                                        'index': user_profile.index,
-                                        'city': user_profile.city,
-                                        'street': user_profile.street,
-                                        'house': user_profile.house,
-                                      })
-        else:
-            form = Step3Form(request.POST)
-            if form.is_valid():
-                Order.get_or_create(request.user)
-                return HttpResponseRedirect('/order/4/')
-            
-        c['form'] = form
-        return render_to_response('order_3.html', c, context_instance=RequestContext(request))
-    elif step == '4':
-        if request.method == 'GET':
-            return render_to_response('order_4.html', c, context_instance=RequestContext(request))
-        else:
-            o = Order.get_recent(request.user)
-            if o:
-                o.delivery = request.POST['delivery']
-                o.save()
-                return HttpResponseRedirect('/order/5/')
-            else:
-                return HttpResponseRedirect('/order/2/')
-    elif step == '5':
-        if request.method == 'GET':
-            return render_to_response('order_5.html', c, context_instance=RequestContext(request))
-        else:
-            o = Order.get_recent(request.user)
-            if o:
-                o.send()
-                c['order_send'] = True
-                return render_to_response('order_5.html', c, context_instance=RequestContext(request))
-            else:
-                return HttpResponseRedirect('/order/2/')
-    else:
+    if not request.user.is_authenticated():
         return HttpResponseRedirect('/cart/')
+    profile = request.user.get_profile()
+    is_legal=profile.is_legal
+    if is_legal:
+        module = OrderDataUrForm
+    else:
+        module = OrderDataFizForm
+    
+    if request.method == 'GET':
+        form = module(instance=profile.get_orderdata(), initial={'fio': profile.fio})
+        orderform = OrderForm()
+    if request.method == 'POST':
+        form = module(request.POST, instance=profile.get_orderdata())
+        orderform = OrderForm(request.POST)            
+        if form.is_valid() and orderform.is_valid():
+            f = form.save(commit=False)
+            f.user = request.user
+            f.save()
+            profile.fio = form['fio'].value()
+            profile.save()
+            of = orderform.save(commit=False)
+            of.user = request.user
+            of.savecommit()
+            return HttpResponseRedirect('/order-ok/')
         
+    c['form'] = form
+    c['orderform'] = orderform
+    if is_legal:
+        return render_to_response('order_ur.html', c, context_instance=RequestContext(request))
+    else:
+        return render_to_response('order_fiz.html', c, context_instance=RequestContext(request))
+
 
 def contacts(request):
     reset_catalog(request)

@@ -9,6 +9,7 @@ from django.template import Context, Template
 
 from dashboard import string_with_title
 from catalog.models import Item
+from users.forms import OrderDataFizForm, OrderDataUrForm
 import config
 from livesettings import config_value
 
@@ -16,9 +17,10 @@ from django.contrib.sites.models import Site
 
 s = Site.objects.get_current()
 
-DELIVERY_TYPE = (('nal', u'Наличными курьеру'),
-                 ('post', u'Почта России'),
-                 ('ems', u'EMS Почта России (экспресс почта)'),)
+DELIVERY_TYPE = (('1', u'Доставка по Москве'),
+                 ('2', u'Доставка до ТК'),
+                 ('3', u'Доставка до двери за пределами Москвы'),
+                 ('4', u'Самовывоз со склада в Москве'),)
 
 def sendmail(subject, body, to_email):
     mail_subject = ''.join(subject)
@@ -124,16 +126,18 @@ class Cart(models.Model):
     
     @staticmethod
     def get_goods_count_and_sum(user):
-        cart = Cart.get_content(user)
-        return (sum([x['count'] for x in cart]), sum([x['count'] * Cart.get_price(user, x['item']) for x in cart]))
+        try:
+            cart = Cart.get_content(user)
+            return (sum([x['count'] for x in cart]), sum([x['count'] * Cart.get_price(user, x['item']) for x in cart]))
+        except:
+            return (0, 0)
 
 
 class Order(models.Model):
     user = models.ForeignKey(User, verbose_name=u'пользователь')
     date = models.DateTimeField(default=datetime.datetime.now, verbose_name=u'дата заказа')
     comment = models.TextField(blank=True, verbose_name=u'комментарий')
-    delivery = models.CharField(choices=DELIVERY_TYPE, max_length=10, blank=True, verbose_name=u'способ доставки')
-    is_commit = models.BooleanField(blank=True, default=False, verbose_name=u'заказ отправлен')
+    delivery = models.CharField(choices=DELIVERY_TYPE, max_length=10, verbose_name=u'способ доставки')
     
     class Meta:
         verbose_name = u'заказ'
@@ -150,19 +154,26 @@ class Order(models.Model):
     def get_sum(self):
         return sum([x.count * x.price for x in OrderContent.get_content(self)])
     
-    def save(self, *args, **kwargs):
-        super(Order, self).save(*args, **kwargs)
-    
-    def send(self):
-        OrderContent.move_from_cart(self.user, self)
-        self.is_commit = True
+    def savecommit(self, *args, **kwargs):
         self.save()
+        OrderContent.move_from_cart(self.user, self)
+        
+        
+        profile = self.user.get_profile()
+        is_legal=profile.is_legal
+        if is_legal:
+            module = OrderDataUrForm
+        else:
+            module = OrderDataFizForm
+        orderdata = module(instance=profile.get_orderdata(), initial={'fio': profile.fio})
+        
         
         subject=u'Поступил новый заказ.',
         body_templ=u"""
-Контактное лицо: {{ o.user.get_profile.fio }}
-Ссылка на профиль: {{ site }}admin/auth/user/{{ o.user.id }}/
-Cпособ доставки: {{ o.get_delivery_display }}
+Данные заказчика: 
+    {% for f in od.visible_fields %}
+        {{ f.label }}: {{ f.value }}
+    {% endfor %}
 
 Содержимое:
     {% for c in o.content.all %}
@@ -172,11 +183,14 @@ Cпособ доставки: {{ o.get_delivery_display }}
         Цена: {{ c.price }} руб.
     {% endfor %}
 
-Общая стоимость:  {{ o.get_sum }} руб. 
+Общая стоимость:  {{ o.get_sum }} руб.
+
+Комментарий: {{ o.comment }} 
+Cпособ доставки: {{ o.get_delivery_display }} 
 
 Ссылка на заказ: {{ site }}admin/shop/order/{{ o.id }}/
 """
-        body = Template(body_templ).render(Context({'o': self, 'site': 'http://%s/' % s.domain}))
+        body = Template(body_templ).render(Context({'o': self, 'site': 'http://%s/' % s.domain, 'od': orderdata}))
         sendmail(subject, body, config_value('MyApp', 'EMAIL'))    
         
         subject=u'Вы оформили заказ в магазине %s.' % s.name,
@@ -190,29 +204,15 @@ Cпособ доставки: {{ o.get_delivery_display }}
         Цена: {{ c.price }} руб.
     {% endfor %}
 
-Общая стоимость:  {{ o.get_sum }} руб. 
+Общая стоимость:  {{ o.get_sum }} руб.
+
+Комментарий: {{ o.comment }}
 Cпособ доставки: {{ o.get_delivery_display }}
 
 Скоро с Вами свяжется менеджер. Спасибо.
 """
         body = Template(body_templ).render(Context({'o': self, 'site': 'http://%s/' % s.domain}))
         sendmail(subject, body, self.user.email)
-    
-    @staticmethod
-    def get_recent(user):
-        try:
-            return Order.objects.filter(user=user, is_commit=False)[0]
-        except:
-            return None # ошибка, необходимо вернуться на шаг назад
-        
-    @staticmethod
-    def get_or_create(user):
-        try:
-            return Order.objects.filter(user=user, is_commit=False)[0]
-        except:
-            u = Order(user=user)
-            u.save()
-            return u
                 
 class OrderContent(models.Model):
     order = models.ForeignKey(Order, verbose_name=u'заказ', related_name='content')

@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% block title %}Личный кабинет{% endblock %}
+{% block title %}Оформление заказа{% endblock %}
 
 {% block content %}
     <!-- .checkout -->
@@ -10,10 +10,10 @@
           <!-- .breadcrumbs -->
           <ul class="breadcrumbs">
             <li><a href="/">Главная</a></li>
-            <li>Личный кабинет</li>
+            <li>Оформление заказа</li>
           </ul>
           <!--// .breadcrumbs -->
-          <h2 class="headline">Данные для оформления заказа</h2>
+          <h2 class="headline">Оформление заказа</h2>
           <!-- .checkout-in -->
           <div class="checkout-in">
             
@@ -44,7 +44,29 @@
                 {% endif %}
                 {{ form.contacts }}
               </div>
-              <button type='submit' class="btn btn-orange">Сохранить</button><a href='/accounts/password/change/'>Сменить пароль</a>
+              
+              <div class="form-row">
+                {% if orderform.comment.errors %}
+                    <div class="form-error">{{ orderform.comment.errors.0 }}</div>
+                {% endif %}
+                {{ orderform.comment }}
+              </div>
+              <!-- .delivery -->
+              <div class="delivery">
+                <h3 class="headline">Доставка</h3>
+                {% if orderform.delivery.errors %}
+                    <div class="form-error">{{ orderform.delivery.errors.0 }}</div>
+                {% endif %}
+                <ul class="delivery-list">
+                  <li><label><input type="radio" name="delivery" value="1">Доставка по Москве</label></li>
+                  <li><label><input type="radio" name="delivery" value="2">Доставка до ТК</label></li>
+                  <li><label><input type="radio" name="delivery" value="3">Доставка до двери за пределами Москвы</label></li>
+                  <li><label><input type="radio" name="delivery" value="4">Самовывоз со склада в Москве</label></li>
+                </ul>
+              </div>
+              <!--// .delivery -->
+              
+              <button type='submit' class="btn btn-orange">Оформить</button>
               {% csrf_token %}
             </form>
             
@@ -57,7 +79,5 @@
       <!--// .checkout -->
       
       <div class="checkout-required-note">* Поле, обязательное для заполнения</div>
-
-
     
 {% endblock %}

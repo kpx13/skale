@@ -10,11 +10,11 @@ class SessionCartWorking(object):
     def var(self, item):
         return  '_'.join(['cart', str(item)])
         
-    def add_to_cart(self, cap, item):
+    def add_to_cart(self, cap, item, count=1):
         if self.var(item) in self.__request.session.keys():
-            self.__request.session[self.var(item)] += 1
+            self.__request.session[self.var(item)] += count 
         else:
-            self.__request.session[self.var(item)] = 1 
+            self.__request.session[self.var(item)] = count
     
     def del_from_cart(self, cap, item):
 	    del self.__request.session[self.var(item)]

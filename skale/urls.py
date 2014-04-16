@@ -25,7 +25,7 @@ urlpatterns = patterns('',
     url(r'^contacts/$' , views.contacts),
     url(r'^lk/$' , views.lk),
     url(r'^cart/$' , views.cart),
-    url(r'^order/(?P<step>[\w-]+)/$' , views.order),
+    url(r'^order/$' , views.order),
     
     url(r'^category/(?P<slug>[\w-]+)/$', views.category),
     url(r'^category/$', views.category, {'slug': None}),

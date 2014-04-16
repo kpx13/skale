@@ -5,60 +5,7 @@
 {% block title %}Корзина{% endblock %}
 
 
-    {% if items %}
-        <table width="100%" class="check">
-            <tr class="heds">
-                <td >Фото</td>
-                <td width='40%'>Описание</td>
-                <td>Количество</td>
-                <td>Цена</td>
-                <td >Сумма</td>
-                <td ></td>
-            </tr>
-            
-            {% for i in items %}
-                <tr>
-                    <td>
-                        <a href='/item/{{i.item.art}}/'>
-                            
-                        </a>
-                    </td>
-                    <td>
-                        <a href='/item/{{i.item.slug}}/' style='text-decoration: none'><p><strong>{{ i.item.name }}</strong></p></a>
-                        <p>Артикул: {{ i.item.art }}</p>
-                        <p>Цвет: {{ i.item.color }}</p>
-                        {% if i.size %}<p>Размер: {{ i.size }}</p>{% endif %}
-                    </td>
-                    <td style='text-align: center'>
-                        <div class="number">
-                            <div class="tnum1w"  style='margin: 0 auto; '>
-                                <div class="tnum1w1">
-                                    <form method='POST'>
-                                        <button type="submit" value="minus" name="action"  class="minus"><span>-</span></button>
-                                        <input type="text" value="{{ i.count }}" size="2" class="tnum1" name='set_count' />
-                                        <button type="submit" value="plus" name="action" class="plus" ><span>+</span></button>
-                                        <input type="hidden" name='item_id' value="{{ i.item.id }}" />
-                                        <input type="hidden" name='size' value="{{ i.size }}" />
-                                        {% csrf_token %}
-                                    </form>                
-                                </div> <!--tnum1w1-->
-                            </div> <!--tnum1w-->
-                        </div> <!--number-->
-
-                    </td>
-
-                </tr>
-            {% endfor %}
-        </table>
-        
-
-    {% else %}
-
-    {% endif %}
-
 {% block content %}
-
-
     <!-- .shopcart -->
     <div class="highlighted shopcart">
         <!-- .holder -->
@@ -201,6 +148,9 @@
                 </div>
                 <!--// .auth-block -->
                 <div class="shopcart-required-note">Поля отмеченные *, обязательны для заполнения</div>
+                {% else %}
+                    <div style="float: right; height: 100px"><a href='/order/'><button class="btn btn-orange">Оформить заказ</button></a></div>
+                    <div style='clear: both'></div>
                 {% endif %}
             {% else %}
                 <h2 class="headline">Ваша корзина пуста.</h2>
