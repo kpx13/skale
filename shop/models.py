@@ -9,7 +9,6 @@ from django.template import Context, Template
 
 from dashboard import string_with_title
 from catalog.models import Item
-from users.forms import OrderDataFizForm, OrderDataUrForm
 import config
 from livesettings import config_value
 
@@ -161,6 +160,7 @@ class Order(models.Model):
         
         profile = self.user.get_profile()
         is_legal=profile.is_legal
+        from users.forms import OrderDataFizForm, OrderDataUrForm
         if is_legal:
             module = OrderDataUrForm
         else:
