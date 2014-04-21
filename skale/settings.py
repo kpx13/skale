@@ -17,7 +17,7 @@ DATETIME_FORMAT = '%d.%m.%Y'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql', # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
+        'ENGINE': 'django.db.backends.postgresql_psycopg2', # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
         'NAME': 'skale',   # Or path to database file if using sqlite3.
         'USER': 'skale',                      # Not used with sqlite3.
         'PASSWORD': 'skale',                  # Not used with sqlite3.
@@ -96,10 +96,8 @@ INSTALLED_APPS = (
     'django.contrib.auth',
     'django.contrib.sites',
     'django.contrib.admin',
-    'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
-    'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'ckeditor',

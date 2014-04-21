@@ -9,7 +9,7 @@ class NewsItem(models.Model):
     name = models.CharField(max_length=200, verbose_name=u'название')
     text = RichTextField(verbose_name=u'описание')
     image = models.ImageField(upload_to= 'uploads/news', blank=True, max_length=256, verbose_name=u'фото основное')
-    slug = models.SlugField(verbose_name=u'слаг', unique=True, blank=True, help_text=u'заполнять не нужно')
+    slug = models.SlugField(max_length=200, verbose_name=u'слаг', unique=True, blank=True, help_text=u'заполнять не нужно')
     date = models.DateTimeField(default=datetime.datetime.now, verbose_name=u'дата добавления')
     
     
