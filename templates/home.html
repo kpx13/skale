@@ -9,8 +9,10 @@
       <div class="slider">
           {% for s in slideshow %}
           <div class="slide {% if forloop.first %} active{% endif %}">
+            <a href='{{ s.href }}'>
               <div class="headline">{{ s.name|safe }}</div>
               <img src="/media/{{ s.image }}" width="814" height="191">
+            </a>
           </div>
           {% endfor %}
           
