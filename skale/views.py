@@ -37,6 +37,7 @@ def get_common_context(request):
         c['cart_working'] = SessionCartWorking(request)
     c['cart_count'], c['cart_sum'] = c['cart_working'].get_goods_count_and_sum(request.user)
     c['cart_content'] = c['cart_working'].get_content(request.user)
+    c['slideshow'] = Slider.objects.all()
     c.update(csrf(request))
     
     return c

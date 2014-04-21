@@ -47,7 +47,7 @@ class CustomIndexDashboard(Dashboard):
                 models=(
                     'pages.models.Page',
                     'news.models.NewsItem',
-                   # 'slideshow.models.Slider',
+                    'slideshow.models.Slider',
                 ),
             )
         )
