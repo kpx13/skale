@@ -27,7 +27,22 @@
                             <ul>
                             {% for i in node.children.all %}
                                 <li  style='list-style: square; margin-left: 10px;'>
-                                    <a href="/category/{{ i.slug }}/">{{ i.name }}</a>
+                                    {% if i.is_leaf_node %}
+                                        <a href="/category/{{ i.slug }}/">
+                                            {{ i.name }}
+                                        </a>
+                                    {% else %}
+                                        <a href="/category/{{ i.slug }}/">{{ i.name }}</a>
+                                        <ul>
+                                            {% for j in i.children.all %}
+                                                <li  style='list-style: square; margin-left: 10px; color: red'>
+                                                    <a href="/category/{{ j.slug }}/">
+                                                        {{ j.name }}
+                                                    </a>
+                                                </li>
+                                            {% endfor %}
+                                        </ul>
+                                    {% endif %}
                                 </li>
                             {% endfor %}
                             </ul>

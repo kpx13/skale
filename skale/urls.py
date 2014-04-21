@@ -35,6 +35,7 @@ urlpatterns = patterns('',
     url(r'^news/$' , views.news),
     url(r'^sitemap.xml$' , views.sitemap),
     url(r'^sitemap.xml/$' , views.sitemap),
-    url(r'^(?P<page_name>[\w-]+)/$' , views.other_page),
+    url(r'^parse/$' , views.parse),
     
+    url(r'^(?P<page_name>[\w-]+)/$' , views.other_page),
 )

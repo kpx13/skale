@@ -10,14 +10,15 @@ from django.db.models import Q
 
 
 class Category(MPTTModel):
-    name = models.CharField(max_length=50, unique=True, verbose_name=u'название')
+    name = models.CharField(max_length=127, verbose_name=u'название')
     parent = TreeForeignKey('self', null=True, blank=True, related_name='children', verbose_name=u'родительская категория')
     order = models.IntegerField(null=True, blank=True, default=0, verbose_name=u'порядок сортировки')
-    slug = models.SlugField(max_length=128, verbose_name=u'слаг', unique=True, blank=True, help_text=u'заполнять не нужно')
+    slug = models.SlugField(max_length=127, verbose_name=u'слаг', unique=True, blank=True, help_text=u'заполнять не нужно')
+    id_1c = models.CharField(max_length=50, unique=True, verbose_name=u'Идентификатор в 1C')
     
     def save(self, *args, **kwargs):
         if not self.slug:
-            self.slug=pytils.translit.slugify(self.name)
+            self.slug=pytils.translit.slugify(self.name) + pytils.translit.slugify(self.id_1c)[-3:]
         super(Category, self).save(*args, **kwargs)
         if self.order == 0:
             self.order = self.id
@@ -38,6 +39,17 @@ class Category(MPTTModel):
             page = page.parent
         breadcrumbs.reverse()
         return breadcrumbs[:-1]
+    
+    @staticmethod
+    def has_id_1c(id_1c):
+        return Category.objects.filter(id_1c=id_1c).count() > 0
+    
+    @staticmethod
+    def get_by_id_1c(id_1c):
+        if id_1c:
+            return Category.objects.filter(id_1c=id_1c)[0]
+        else:
+            return None
         
     class Meta:
         verbose_name = u'категория'
