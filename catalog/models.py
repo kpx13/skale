@@ -18,7 +18,7 @@ class Category(MPTTModel):
     
     def save(self, *args, **kwargs):
         if not self.slug:
-            self.slug=pytils.translit.slugify(self.name) + pytils.translit.slugify(self.id_1c)[-3:]
+            self.slug=pytils.translit.slugify(self.name)[:100] + "-" + self.id_1c
         super(Category, self).save(*args, **kwargs)
         if self.order == 0:
             self.order = self.id
@@ -90,10 +90,11 @@ class Item(models.Model):
     recommend_home = models.BooleanField(blank=True, default=False, verbose_name=u'показывать на главной как рекомендуем')
     slug = models.SlugField(max_length=128, verbose_name=u'слаг', unique=True, blank=True, help_text=u'заполнять не нужно')
     date = models.DateTimeField(default=datetime.datetime.now, verbose_name=u'дата добавления')
+    id_1c = models.CharField(max_length=50, unique=True, verbose_name=u'Идентификатор в 1C')
     
     def save(self, *args, **kwargs):
         if not self.slug:
-            self.slug=pytils.translit.slugify(self.art)
+            self.slug=pytils.translit.slugify(self.name)[:100] + "-" + self.art
         if self.order == 0:
             self.order = self.id
             self.save()
@@ -111,6 +112,17 @@ class Item(models.Model):
         try:
             return Item.objects.get(id=id_)
         except:
+            return None
+    
+    @staticmethod
+    def has_id_1c(id_1c):
+        return Item.objects.filter(id_1c=id_1c).count() > 0
+    
+    @staticmethod
+    def get_by_id_1c(id_1c):
+        if id_1c:
+            return Item.objects.filter(id_1c=id_1c)[0]
+        else:
             return None
         
     @staticmethod
@@ -142,26 +154,27 @@ class Item(models.Model):
     def __unicode__(self):
         return self.name
 
-"""
-class Image(models.Model):
-    item = models.ForeignKey(Item, verbose_name=u'товар', related_name='image')
-    image = models.ImageField(upload_to='uploads/items', max_length=256, blank=True, verbose_name=u'изображение')
-    order = models.IntegerField(null=True, blank=True, default=100, verbose_name=u'порядок сортировки')
 
-    @staticmethod
-    def get(id_):
-        try:
-            return Item.objects.get(id=id_)
-        except:
-            return None
+class LoadFromFile(models.Model):
+    file = models.FileField(upload_to='uploads/data', max_length=256, verbose_name=u'файл')
+    date = models.DateTimeField(default=datetime.datetime.now, verbose_name=u'дата загрузки')
+    to_update = models.BooleanField(default=True, blank=True, verbose_name=u'нужно только обновление?', 
+                                    help_text=u'Если галочка стоит, то будет только обновляться цена, если не стоит, то каталог обновится полностью (!!!)')
+    log = models.TextField(blank=True, help_text=u'По завершению загрузки здесь появится лог.', verbose_name=u'лог загрузки')
+
     
     class Meta:
-        verbose_name = u'изображение'
-        verbose_name_plural = u'изображения'
-        ordering=['order']
+        verbose_name = u'загрузка'
+        verbose_name_plural = u'загрузки'
+        ordering=['-date']
         app_label = string_with_title("catalog", u"Каталог")
         
     def __unicode__(self):
-        return str(self.id) 
+        return str(self.date) 
     
-"""
+    def save(self, *args, **kwargs):
+        super(LoadFromFile, self).save(*args, **kwargs)
+        if not self.log:
+            from catalog.parse import go
+            self.log = go(self.file, self.to_update)
+            self.save()

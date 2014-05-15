@@ -58,6 +58,7 @@ class CustomIndexDashboard(Dashboard):
                 models=(
                     'catalog.models.Category',
                     'catalog.models.Item',
+                    'catalog.models.LoadFromFile',
                 ),
             )
         )

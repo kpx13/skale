@@ -307,10 +307,3 @@ def search(request):
 def sitemap(request):
     c = get_common_context(request)
     return render_to_response('sitemap.html', c, context_instance=RequestContext(request))
-
-
-def parse(request):
-    c = get_common_context(request)
-    from catalog.parse import go
-    go('1c_db.xml')
-    return render_to_response('catalog_map.html', c, context_instance=RequestContext(request))
